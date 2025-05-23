@@ -1,6 +1,5 @@
-.vercel
-
 # Dependency directories
+.vercel
 node_modules/
 
 # Environment variables

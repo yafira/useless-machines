@@ -1,3 +1,4 @@
+/* Base layout and theme */
 body {
 	font-family: system-ui, sans-serif;
 	margin: 0;
@@ -14,20 +15,28 @@ h1 {
 	color: #222;
 }
 
+/* Grid layout that allows content to naturally wrap */
 #arena-content {
-	max-width: 700px;
-	margin: 0 auto;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 	gap: 1.5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 1rem;
+	align-items: start; /* ensures blocks don't stretch vertically */
 }
 
+/* Individual content blocks */
 .block {
 	background: white;
 	border-radius: 0.75rem;
 	padding: 1rem 1.25rem;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	/* No height/width constraints; content defines size */
 }
 
 .block:hover {
@@ -35,16 +44,29 @@ h1 {
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.block img {
+/* Media content styling */
+.block img,
+.block iframe,
+.block video,
+.block audio {
+	width: 100%;
 	max-width: 100%;
+	height: auto;
 	border-radius: 0.5rem;
 	margin-top: 0.5rem;
 }
 
+/* Preserve aspect ratio for embeds */
+.block iframe {
+	aspect-ratio: 16 / 9;
+}
+
+/* Text blocks */
 .block p {
 	margin: 0.5rem 0;
 }
 
+/* Link styling */
 .block a {
 	color: #0070f3;
 	font-weight: 500;

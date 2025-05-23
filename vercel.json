@@ -1,8 +1,4 @@
 {
 	"version": 2,
-	"builds": [{ "src": "api/arena.js", "use": "@vercel/node" }],
-	"routes": [
-		{ "src": "/api/arena", "dest": "/api/arena.js" },
-		{ "src": "/", "dest": "/index.html" }
-	]
+	"routes": [{ "src": "/api/arena", "dest": "/api/arena.js" }]
 }

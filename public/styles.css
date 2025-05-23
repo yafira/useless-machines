@@ -1,21 +1,57 @@
+body {
+	font-family: system-ui, sans-serif;
+	margin: 0;
+	padding: 2rem;
+	background: #f9f9f9;
+	color: #333;
+	line-height: 1.6;
+}
+
+h1 {
+	font-size: 2rem;
+	margin-bottom: 1rem;
+	text-align: center;
+	color: #222;
+}
+
+#arena-content {
+	max-width: 700px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
 .block {
 	background: white;
-	border-radius: 0.5rem;
-	padding: 1rem;
-	margin: 1rem 0;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 0.75rem;
+	padding: 1rem 1.25rem;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-img {
+.block:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.block img {
 	max-width: 100%;
-	border-radius: 4px;
+	border-radius: 0.5rem;
+	margin-top: 0.5rem;
 }
 
-a {
+.block p {
+	margin: 0.5rem 0;
+}
+
+.block a {
 	color: #0070f3;
+	font-weight: 500;
 	text-decoration: none;
+	word-break: break-word;
 }
 
-a:hover {
+.block a:hover {
 	text-decoration: underline;
 }

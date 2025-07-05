@@ -9,12 +9,17 @@ fetch('/api/arena')
 		const channels = data.channels
 
 		if (!channels || channels.length === 0) {
-			container.innerHTML = '<p>🤷‍♀️ No channels found in this group.</p>'
+			container.innerHTML = '<p> No channels found in this group.</p>'
 			return
 		}
 
 		channels.forEach((channel) => {
-			// Add channel title
+			if (!channel.blocks || channel.blocks.length === 0) {
+				// 🔕 Skip empty channels
+				return
+			}
+
+			// Add channel title only if there are blocks
 			const header = document.createElement('h2')
 			header.textContent = `🔩 ${channel.title}`
 			header.style.marginTop = '2rem'
@@ -32,12 +37,14 @@ fetch('/api/arena')
 					img.loading = 'lazy'
 					blockDiv.appendChild(img)
 				}
+
 				// TEXT
 				else if (block.class === 'Text') {
 					const p = document.createElement('p')
 					p.textContent = block.content
 					blockDiv.appendChild(p)
 				}
+
 				// LINK
 				else if (block.class === 'Link') {
 					const a = document.createElement('a')
@@ -47,6 +54,7 @@ fetch('/api/arena')
 					a.textContent = block.title || block.source?.url || 'Untitled link'
 					blockDiv.appendChild(a)
 				}
+
 				// MEDIA
 				else if (block.class === 'Media') {
 					if (block.embed?.html) {
@@ -74,6 +82,26 @@ fetch('/api/arena')
 						blockDiv.appendChild(em)
 					}
 				}
+
+				// ATTACHMENT
+				else if (block.class === 'Attachment' && block.attachment?.url) {
+					const fileLink = document.createElement('a')
+					fileLink.href = block.attachment.url
+					fileLink.target = '_blank'
+					fileLink.rel = 'noopener noreferrer'
+					fileLink.textContent =
+						block.title || block.attachment.file_name || 'Download file'
+					fileLink.classList.add('attachment-link')
+
+					if (block.attachment.file_size_display) {
+						const size = document.createElement('span')
+						size.textContent = ` (${block.attachment.file_size_display})`
+						fileLink.appendChild(size)
+					}
+
+					blockDiv.appendChild(fileLink)
+				}
+
 				// UNSUPPORTED
 				else {
 					const em = document.createElement('em')

@@ -16,7 +16,7 @@ fetch('/api/arena')
 		channels.forEach((channel) => {
 			// Add channel title
 			const header = document.createElement('h2')
-			header.textContent = `📦 ${channel.title}`
+			header.textContent = `🔩 ${channel.title}`
 			header.style.marginTop = '2rem'
 			container.appendChild(header)
 

@@ -11,7 +11,7 @@ body {
 
 h1 {
 	text-align: center;
-	font-size: 2.5rem;
+	font-size: 4rem;
 	letter-spacing: 0.05em;
 	margin-bottom: 2rem;
 	font-weight: 700;
@@ -52,7 +52,7 @@ h1 {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #fff;
+	background: #f4f3ee;
 	padding: 1rem 1.25rem;
 	transition: background 0.2s;
 	cursor: pointer;

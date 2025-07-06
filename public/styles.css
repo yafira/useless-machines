@@ -7,11 +7,29 @@ body {
 	line-height: 1.6;
 }
 
-h1 {
-	font-size: 2rem;
-	margin-bottom: 2rem;
-	text-align: center;
+body {
+	font-family: 'Oxanium', sans-serif;
+	background: #f4f2eb;
+	margin: 0;
+	padding: 2rem;
 	color: #222;
+	line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Oxanium', sans-serif;
+}
+
+h1 {
+	font-size: 3rem;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 2rem;
 }
 
 /* Masonry layout using columns */

@@ -1,4 +1,5 @@
 const container = document.getElementById('arena-content')
+container.classList.add('index') // applies styling class
 
 fetch('/api/arena')
 	.then((res) => {
@@ -9,119 +10,85 @@ fetch('/api/arena')
 		const channels = data.channels
 
 		if (!channels || channels.length === 0) {
-			container.innerHTML = '<p> No channels found in this group.</p>'
+			container.innerHTML = '<p>No content found.</p>'
 			return
 		}
 
 		channels.forEach((channel) => {
-			if (!channel.blocks || channel.blocks.length === 0) return // Skip empty channels
-
-			// Channel Title
-			const header = document.createElement('h2')
-			header.textContent = `🔩 ${channel.title}`
-			header.style.marginTop = '2rem'
-			container.appendChild(header)
+			if (!channel.blocks || channel.blocks.length === 0) return
 
 			channel.blocks.forEach((block) => {
-				const blockDiv = document.createElement('div')
-				blockDiv.classList.add('block')
+				const blockWrapper = document.createElement('div')
+				blockWrapper.classList.add('index-block')
 
-				// Block Title (if present)
-				if (block.title) {
-					const title = document.createElement('h3')
-					title.textContent = block.title
-					title.classList.add('block-title')
-					blockDiv.appendChild(title)
-				}
+				const row = document.createElement('div')
+				row.classList.add('index-row')
 
-				// IMAGE
+				const left = document.createElement('div')
+				left.classList.add('index-left')
+
+				const title = document.createElement('div')
+				title.classList.add('index-title')
+				title.textContent = block.title || 'Untitled'
+
+				const arrow = document.createElement('div')
+				arrow.classList.add('index-arrow')
+				arrow.textContent = '›'
+
+				left.append(title, arrow)
+
+				const right = document.createElement('div')
+				right.classList.add('index-right')
+				right.textContent = channel.title?.toUpperCase() || 'MISC'
+
+				row.append(left, right)
+
+				// content container (hidden initially)
+				const content = document.createElement('div')
+				content.classList.add('block-content')
+				content.style.display = 'none'
+
+				// preview content
 				if (block.class === 'Image' && block.image?.display?.url) {
 					const img = document.createElement('img')
 					img.src = block.image.display.url
 					img.alt = block.title || 'Image'
 					img.loading = 'lazy'
-					blockDiv.appendChild(img)
-				}
-
-				// TEXT
-				else if (block.class === 'Text') {
+					content.appendChild(img)
+				} else if (block.class === 'Text') {
 					const p = document.createElement('p')
 					p.textContent = block.content
-					blockDiv.appendChild(p)
-				}
-
-				// LINK
-				else if (block.class === 'Link') {
+					content.appendChild(p)
+				} else if (block.class === 'Link') {
 					const a = document.createElement('a')
 					a.href = block.source?.url || '#'
 					a.target = '_blank'
 					a.rel = 'noopener noreferrer'
-					a.textContent = block.source?.url || 'Untitled link'
-					blockDiv.appendChild(a)
+					a.textContent = block.title || block.source?.url || 'View link'
+					content.appendChild(a)
+				} else if (block.class === 'Attachment' && block.attachment?.url) {
+					const a = document.createElement('a')
+					a.href = block.attachment.url
+					a.target = '_blank'
+					a.rel = 'noopener noreferrer'
+					a.textContent =
+						block.title || block.attachment.file_name || 'Download'
+					content.appendChild(a)
 				}
 
-				// MEDIA
-				else if (block.class === 'Media') {
-					if (block.embed?.html) {
-						blockDiv.innerHTML += block.embed.html
-					} else if (
-						block.attachment?.url &&
-						block.attachment?.content_type?.startsWith('video')
-					) {
-						const video = document.createElement('video')
-						video.src = block.attachment.url
-						video.controls = true
-						video.style.maxWidth = '100%'
-						blockDiv.appendChild(video)
-					} else if (
-						block.attachment?.url &&
-						block.attachment?.content_type?.startsWith('audio')
-					) {
-						const audio = document.createElement('audio')
-						audio.src = block.attachment.url
-						audio.controls = true
-						blockDiv.appendChild(audio)
-					} else {
-						const em = document.createElement('em')
-						em.textContent = '⚠️ Unsupported media block'
-						blockDiv.appendChild(em)
-					}
-				}
+				// toggle content visibility on row click (ignore if clicking a link)
+				row.addEventListener('click', (e) => {
+					if (e.target.tagName.toLowerCase() === 'a') return
+					const isVisible = content.style.display === 'block'
+					content.style.display = isVisible ? 'none' : 'block'
+				})
 
-				// ATTACHMENT
-				else if (block.class === 'Attachment' && block.attachment?.url) {
-					const fileLink = document.createElement('a')
-					fileLink.href = block.attachment.url
-					fileLink.target = '_blank'
-					fileLink.rel = 'noopener noreferrer'
-					fileLink.textContent = block.attachment.file_name || 'Download file'
-					fileLink.classList.add('attachment-link')
-
-					if (block.attachment.file_size_display) {
-						const size = document.createElement('span')
-						size.textContent = ` (${block.attachment.file_size_display})`
-						fileLink.appendChild(size)
-					}
-
-					blockDiv.appendChild(fileLink)
-				}
-
-				// UNSUPPORTED
-				else if (
-					!['Image', 'Text', 'Link', 'Media', 'Attachment'].includes(
-						block.class
-					)
-				) {
-					const em = document.createElement('em')
-					em.textContent = `⚠️ Unsupported block type: ${block.class}`
-					blockDiv.appendChild(em)
-				}
-
-				container.appendChild(blockDiv)
+				blockWrapper.append(row, content)
+				container.appendChild(blockWrapper)
 			})
 		})
 	})
 	.catch((err) => {
 		console.error('❌ Error loading Are.na data:', err)
-		container.innerHTML = `<p>⚠️ Error loading content: ${err.message}</p>`
+		container.innerHTML = `<p>Error: ${err.message}</p>`
 	})

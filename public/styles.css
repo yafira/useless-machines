@@ -2,7 +2,7 @@ body {
 	font-family: system-ui, sans-serif;
 	margin: 0;
 	padding: 2rem;
-	background: #f9f9f9;
+	background: #efeee6;
 	color: #333;
 	line-height: 1.6;
 }
@@ -50,6 +50,13 @@ h1 {
 .block:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.block-title {
+	font-size: 1rem;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+	color: #333;
 }
 
 /* Media styling */

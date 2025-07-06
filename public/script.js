@@ -14,12 +14,9 @@ fetch('/api/arena')
 		}
 
 		channels.forEach((channel) => {
-			if (!channel.blocks || channel.blocks.length === 0) {
-				// 🔕 Skip empty channels
-				return
-			}
+			if (!channel.blocks || channel.blocks.length === 0) return // Skip empty channels
 
-			// Add channel title only if there are blocks
+			// Channel Title
 			const header = document.createElement('h2')
 			header.textContent = `🔩 ${channel.title}`
 			header.style.marginTop = '2rem'
@@ -28,6 +25,14 @@ fetch('/api/arena')
 			channel.blocks.forEach((block) => {
 				const blockDiv = document.createElement('div')
 				blockDiv.classList.add('block')
+
+				// Block Title (if present)
+				if (block.title) {
+					const title = document.createElement('h3')
+					title.textContent = block.title
+					title.classList.add('block-title')
+					blockDiv.appendChild(title)
+				}
 
 				// IMAGE
 				if (block.class === 'Image' && block.image?.display?.url) {
@@ -51,7 +56,7 @@ fetch('/api/arena')
 					a.href = block.source?.url || '#'
 					a.target = '_blank'
 					a.rel = 'noopener noreferrer'
-					a.textContent = block.title || block.source?.url || 'Untitled link'
+					a.textContent = block.source?.url || 'Untitled link'
 					blockDiv.appendChild(a)
 				}
 
@@ -89,8 +94,7 @@ fetch('/api/arena')
 					fileLink.href = block.attachment.url
 					fileLink.target = '_blank'
 					fileLink.rel = 'noopener noreferrer'
-					fileLink.textContent =
-						block.title || block.attachment.file_name || 'Download file'
+					fileLink.textContent = block.attachment.file_name || 'Download file'
 					fileLink.classList.add('attachment-link')
 
 					if (block.attachment.file_size_display) {
@@ -103,7 +107,11 @@ fetch('/api/arena')
 				}
 
 				// UNSUPPORTED
-				else {
+				else if (
+					!['Image', 'Text', 'Link', 'Media', 'Attachment'].includes(
+						block.class
+					)
+				) {
 					const em = document.createElement('em')
 					em.textContent = `⚠️ Unsupported block type: ${block.class}`
 					blockDiv.appendChild(em)

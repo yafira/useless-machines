@@ -34,15 +34,29 @@ fetch('/api/arena')
 			const left = document.createElement('div')
 			left.classList.add('index-left')
 
-			const title = document.createElement('div')
-			title.classList.add('index-title')
-			title.textContent = block.title || 'untitled'
+			const titleGroup = document.createElement('div')
+			titleGroup.classList.add('index-title-group')
+
+			let rawTitle = block.title || 'untitled'
+			let [piece = '', artist = '', year = ''] = rawTitle
+				.split('|')
+				.map((s) => s.trim())
+
+			const pieceTitle = document.createElement('div')
+			pieceTitle.classList.add('index-title')
+			pieceTitle.textContent = piece
+
+			const artistLine = document.createElement('div')
+			artistLine.classList.add('index-meta')
+			artistLine.textContent = `${artist}${year ? ', ' + year : ''}`
+
+			titleGroup.append(pieceTitle, artistLine)
 
 			const arrow = document.createElement('span')
 			arrow.classList.add('index-arrow')
 			arrow.textContent = '›'
 
-			left.append(title, arrow)
+			left.append(titleGroup, arrow)
 
 			const right = document.createElement('div')
 			right.classList.add('index-right')

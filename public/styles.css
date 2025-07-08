@@ -70,12 +70,25 @@ h1 {
 	flex: 1;
 }
 
+.index-title-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+}
+
+/* title and meta */
 .index-title {
 	font-size: 1.1rem;
 	font-weight: 600;
 	letter-spacing: 0.02em;
 }
 
+.index-meta {
+	font-size: 0.9rem;
+	color: #333;
+}
+
+/* channel category */
 .index-right {
 	width: 200px;
 	text-align: right;

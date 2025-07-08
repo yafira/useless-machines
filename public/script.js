@@ -31,8 +31,14 @@ fetch('/api/arena')
 			const row = document.createElement('div')
 			row.classList.add('index-row')
 
+			const yearColumn = document.createElement('div')
+			yearColumn.classList.add('index-year')
+
 			const left = document.createElement('div')
 			left.classList.add('index-left')
+
+			const right = document.createElement('div')
+			right.classList.add('index-right')
 
 			const titleGroup = document.createElement('div')
 			titleGroup.classList.add('index-title-group')
@@ -48,7 +54,7 @@ fetch('/api/arena')
 
 			const artistLine = document.createElement('div')
 			artistLine.classList.add('index-meta')
-			artistLine.textContent = `${artist}${year ? ', ' + year : ''}`
+			artistLine.textContent = artist
 
 			titleGroup.append(pieceTitle, artistLine)
 
@@ -58,11 +64,17 @@ fetch('/api/arena')
 
 			left.append(titleGroup, arrow)
 
-			const right = document.createElement('div')
-			right.classList.add('index-right')
-			right.textContent = block.channelTitle?.toUpperCase() || 'misc'
+			if (year) {
+				yearColumn.textContent = year
+			}
 
-			row.append(left, right)
+			const channelLabel = document.createElement('div')
+			channelLabel.classList.add('index-channel')
+			channelLabel.textContent = block.channelTitle?.toUpperCase() || 'misc'
+
+			right.appendChild(channelLabel)
+
+			row.append(yearColumn, left, right)
 
 			const content = document.createElement('div')
 			content.classList.add('block-content')

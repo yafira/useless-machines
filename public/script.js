@@ -1,3 +1,4 @@
+const spinner = document.getElementById('loading-spinner')
 const container = document.getElementById('arena-content')
 container.classList.add('index')
 
@@ -122,8 +123,13 @@ fetch('/api/arena')
 			blockWrapper.append(row, content)
 			container.appendChild(blockWrapper)
 		})
+
+		// hide spinner and show content
+		spinner.style.display = 'none'
+		container.style.display = 'flex'
 	})
 	.catch((err) => {
 		console.error('❌ error loading are.na data:', err)
+		spinner.style.display = 'none'
 		container.innerHTML = `<p>error: ${err.message}</p>`
 	})

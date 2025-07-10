@@ -17,6 +17,36 @@ h1 {
 	font-weight: 700;
 }
 
+/* corners of page */
+.corner {
+	position: fixed;
+	width: 40px; /* adjust size as needed */
+	height: 40px;
+	z-index: 999;
+	pointer-events: none; /* makes sure they don’t block clicks */
+	opacity: 0.75; /* soften the appearance */
+}
+
+.top-left {
+	top: 0.75rem;
+	left: 0.75rem;
+}
+
+.top-right {
+	top: 0.75rem;
+	right: 0.75rem;
+}
+
+.bottom-left {
+	bottom: 0.75rem;
+	left: 0.75rem;
+}
+
+.bottom-right {
+	bottom: 0.75rem;
+	right: 0.75rem;
+}
+
 /* content layout */
 #arena-content.index {
 	max-width: 1000px;
@@ -160,22 +190,22 @@ h1 {
 
 /* responsive */
 @media (max-width: 700px) {
+	.corner {
+		display: none;
+	}
 	body {
 		padding: 1rem;
 	}
-
 	.index-row {
 		flex-direction: column;
 		align-items: flex-start;
 	}
-
 	.index-right,
 	.index-year {
 		width: 100%;
 		text-align: left;
 		margin-top: 0.5rem;
 	}
-
 	.block-content {
 		padding: 1rem;
 	}

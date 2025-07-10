@@ -77,7 +77,7 @@ h1 {
 
 /* hover effect */
 .index-row:hover {
-	background: #f5f5f5;
+	background: #dcd8cd;
 }
 
 /* year column */
@@ -178,7 +178,7 @@ h1 {
 }
 
 .block-content a {
-	color: #0070f3;
+	color: #0097a7;
 	text-decoration: none;
 	word-break: break-word;
 	font-weight: 500;

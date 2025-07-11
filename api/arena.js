@@ -38,7 +38,16 @@ module.exports = async (req, res) => {
 				return {
 					title: channel.title,
 					slug: channel.slug,
-					blocks: chanData.contents,
+					description: channel.metadata?.description || null, // ✅ add channel-level description
+					blocks: chanData.contents.map((block) => ({
+						id: block.id,
+						class: block.class,
+						title: block.title,
+						image: block.image,
+						url: block.source?.url || block.image?.display?.url || null,
+						metadata: block.metadata || null,
+						description: block.metadata?.description || null,
+					})),
 				}
 			})
 		)

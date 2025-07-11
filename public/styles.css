@@ -182,6 +182,19 @@ h1 {
 	color: #444;
 }
 
+.channel-description {
+	font-size: 0.85rem;
+	color: #888;
+	font-style: italic;
+	margin-top: 0.25rem;
+}
+
+.block-description {
+	font-style: italic;
+	color: #555;
+	margin-bottom: 0.75rem;
+}
+
 /* image block */
 .image-container {
 	width: 100%;

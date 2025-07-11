@@ -14,7 +14,11 @@ fetch('/api/arena')
 			if (!channel.blocks || channel.blocks.length === 0) return
 
 			channel.blocks.forEach((block) => {
-				blocks.push({ ...block, channelTitle: channel.title })
+				blocks.push({
+					...block,
+					channelTitle: channel.title,
+					channelDescription: channel.description, // ✅ pass it forward
+				})
 			})
 		})
 
@@ -73,13 +77,25 @@ fetch('/api/arena')
 			channelLabel.classList.add('index-channel')
 			channelLabel.textContent = block.channelTitle?.toUpperCase() || 'misc'
 
-			right.appendChild(channelLabel)
+			const channelDesc = document.createElement('div')
+			channelDesc.classList.add('channel-description')
+			channelDesc.textContent = block.channelDescription || ''
+
+			right.append(channelLabel, channelDesc)
 
 			row.append(yearColumn, left, right)
 
 			const content = document.createElement('div')
 			content.classList.add('block-content')
 			content.style.display = 'none'
+
+			// show metadata.description if available (block-level)
+			if (block.description) {
+				const desc = document.createElement('p')
+				desc.classList.add('block-description')
+				desc.textContent = block.description
+				content.appendChild(desc)
+			}
 
 			if (block.class === 'Image' && block.image?.display?.url) {
 				const imageWrapper = document.createElement('div')
@@ -98,10 +114,10 @@ fetch('/api/arena')
 				content.appendChild(p)
 			} else if (block.class === 'Link') {
 				const a = document.createElement('a')
-				a.href = block.source?.url || '#'
+				a.href = block.url || '#'
 				a.target = '_blank'
 				a.rel = 'noopener noreferrer'
-				a.textContent = block.title || block.source?.url || 'view link'
+				a.textContent = block.title || block.url || 'view link'
 				content.appendChild(a)
 			} else if (block.class === 'Attachment' && block.attachment?.url) {
 				const a = document.createElement('a')

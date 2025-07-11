@@ -20,11 +20,12 @@ h1 {
 /* corners of page */
 .corner {
 	position: fixed;
-	width: 40px; /* adjust size as needed */
+	width: 40px;
 	height: 40px;
 	z-index: 999;
-	pointer-events: none; /* makes sure they don’t block clicks */
-	opacity: 0.75; /* soften the appearance */
+	pointer-events: none;
+	opacity: 0.75;
+	object-fit: contain;
 }
 
 .top-left {

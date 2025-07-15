@@ -76,6 +76,25 @@ h1 {
 	}
 }
 
+/* sorting ui */
+.sort-options {
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.sort-options label {
+	font-weight: 600;
+	margin-right: 0.5rem;
+}
+
+#sort-select {
+	font-family: 'Oxanium', sans-serif;
+	font-size: 1rem;
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	border: 1px solid #aaa;
+}
+
 /* content layout */
 #arena-content.index {
 	max-width: 1000px;

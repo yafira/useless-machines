@@ -87,12 +87,14 @@ h1 {
 	margin-right: 0.5rem;
 }
 
-#sort-select {
+#sort-select,
+#channel-select {
 	font-family: 'Oxanium', sans-serif;
 	font-size: 1rem;
 	padding: 0.25rem 0.5rem;
 	border-radius: 4px;
 	border: 1px solid #aaa;
+	margin-left: 0.5rem;
 }
 
 /* content layout */

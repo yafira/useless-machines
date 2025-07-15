@@ -1,6 +1,7 @@
 const spinner = document.getElementById('loading-spinner')
 const container = document.getElementById('arena-content')
 const sortSelect = document.getElementById('sort-select')
+const channelSelect = document.getElementById('channel-select')
 container.classList.add('index')
 
 let blocks = []
@@ -23,6 +24,7 @@ fetch('/api/arena')
 			})
 		})
 
+		populateChannelOptions()
 		renderBlocks('random')
 		spinner.style.display = 'none'
 		container.style.display = 'flex'
@@ -32,6 +34,18 @@ fetch('/api/arena')
 		spinner.style.display = 'none'
 		container.innerHTML = `<p>error: ${err.message}</p>`
 	})
+
+// Populate second dropdown with channels
+function populateChannelOptions() {
+	const uniqueChannels = [...new Set(blocks.map((b) => b.channelTitle))].sort()
+	channelSelect.innerHTML = '<option value="all">All Types</option>'
+	uniqueChannels.forEach((channel) => {
+		const opt = document.createElement('option')
+		opt.value = channel
+		opt.textContent = channel
+		channelSelect.appendChild(opt)
+	})
+}
 
 // Sorting Functions
 function sortBlocks(method) {
@@ -60,9 +74,15 @@ function sortBlocks(method) {
 }
 
 // Rendering
-function renderBlocks(sortMethod) {
+function renderBlocks(sortMethod, channelFilter = 'all') {
 	container.innerHTML = ''
-	const sortedBlocks = sortBlocks(sortMethod)
+	let sortedBlocks = sortBlocks(sortMethod)
+
+	if (sortMethod === 'channel' && channelFilter !== 'all') {
+		sortedBlocks = sortedBlocks.filter(
+			(block) => block.channelTitle === channelFilter
+		)
+	}
 
 	sortedBlocks.forEach((block) => {
 		const blockWrapper = document.createElement('div')
@@ -174,7 +194,18 @@ function renderBlocks(sortMethod) {
 	})
 }
 
-// Event Listener for Sort Options
+// Event Listeners
 sortSelect.addEventListener('change', (e) => {
-	renderBlocks(e.target.value)
+	const value = e.target.value
+	if (value === 'channel') {
+		channelSelect.style.display = 'inline-block'
+		renderBlocks('channel')
+	} else {
+		channelSelect.style.display = 'none'
+		renderBlocks(value)
+	}
+})
+
+channelSelect.addEventListener('change', (e) => {
+	renderBlocks('channel', e.target.value)
 })

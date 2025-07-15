@@ -1,4 +1,4 @@
-/* base styles */
+/* general layout */
 body {
 	font-family: 'Oxanium', sans-serif;
 	background: #f4f3ee;
@@ -17,7 +17,7 @@ h1 {
 	font-weight: 700;
 }
 
-/* corners of page */
+/* corner screws */
 .corner {
 	position: fixed;
 	width: 40px;
@@ -48,6 +48,7 @@ h1 {
 	right: 0.75rem;
 }
 
+/* loading spinner */
 #loading-spinner {
 	position: fixed;
 	top: 0;
@@ -76,7 +77,7 @@ h1 {
 	}
 }
 
-/* sorting ui */
+/* sort dropdowns */
 .sort-options {
 	text-align: center;
 	margin-bottom: 1rem;
@@ -97,7 +98,7 @@ h1 {
 	margin-left: 0.5rem;
 }
 
-/* content layout */
+/* arena content container */
 #arena-content.index {
 	max-width: 1000px;
 	margin: 0 auto;
@@ -108,12 +109,11 @@ h1 {
 	overflow: hidden;
 }
 
-/* blocks */
+/* block row */
 .index-block {
 	border-bottom: 1px solid #ccc;
 }
 
-/* row layout */
 .index-row {
 	display: flex;
 	justify-content: space-between;
@@ -125,7 +125,6 @@ h1 {
 	gap: 1rem;
 }
 
-/* hover effect */
 .index-row:hover {
 	background: #dcd8cd;
 }
@@ -140,7 +139,7 @@ h1 {
 	flex-shrink: 0;
 }
 
-/* center column (title and artist) */
+/* left column (title / artist) */
 .index-left {
 	display: flex;
 	align-items: center;
@@ -167,7 +166,7 @@ h1 {
 	font-weight: 400;
 }
 
-/* right column (channel + arrow) */
+/* right column (channel label) */
 .index-right {
 	display: flex;
 	flex-direction: column;
@@ -194,7 +193,7 @@ h1 {
 	transition: transform 0.2s ease;
 }
 
-/* hidden block content */
+/* block content (hidden on load) */
 .block-content {
 	display: none;
 	background: #fff;
@@ -203,6 +202,7 @@ h1 {
 	color: #444;
 }
 
+/* descriptions */
 .channel-description {
 	font-size: 0.85rem;
 	color: #888;
@@ -216,7 +216,7 @@ h1 {
 	margin-bottom: 0.75rem;
 }
 
-/* image block */
+/* images */
 .image-container {
 	width: 100%;
 	aspect-ratio: 4 / 3;
@@ -235,7 +235,7 @@ h1 {
 	display: block;
 }
 
-/* text and links */
+/* links and text content */
 .block-content p {
 	margin: 0;
 }
@@ -251,24 +251,28 @@ h1 {
 	text-decoration: underline;
 }
 
-/* responsive */
+/* responsive adjustments */
 @media (max-width: 700px) {
 	.corner {
 		display: none;
 	}
+
 	body {
 		padding: 1rem;
 	}
+
 	.index-row {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+
 	.index-right,
 	.index-year {
 		width: 100%;
 		text-align: left;
 		margin-top: 0.5rem;
 	}
+
 	.block-content {
 		padding: 1rem;
 	}

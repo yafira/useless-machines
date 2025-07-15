@@ -6,6 +6,7 @@ container.classList.add('index')
 
 let blocks = []
 
+// fetch arena data and store all blocks
 fetch('/api/arena')
 	.then((res) => {
 		if (!res.ok) throw new Error(`failed to fetch: ${res.status}`)
@@ -24,8 +25,8 @@ fetch('/api/arena')
 			})
 		})
 
-		populateChannelOptions()
-		renderBlocks('random')
+		populateChannelOptions() // create options for type of machine dropdown
+		renderBlocks('random') // render initial blocks in random order
 		spinner.style.display = 'none'
 		container.style.display = 'flex'
 	})
@@ -35,7 +36,7 @@ fetch('/api/arena')
 		container.innerHTML = `<p>error: ${err.message}</p>`
 	})
 
-// Populate second dropdown with channels
+// populate second dropdown with unique channel names
 function populateChannelOptions() {
 	const uniqueChannels = [...new Set(blocks.map((b) => b.channelTitle))].sort()
 	channelSelect.innerHTML = '<option value="all">All Types</option>'
@@ -47,7 +48,7 @@ function populateChannelOptions() {
 	})
 }
 
-// Sorting Functions
+// sorting methods for year, channel, random
 function sortBlocks(method) {
 	if (method === 'year') {
 		return [...blocks].sort((a, b) => {
@@ -73,7 +74,7 @@ function sortBlocks(method) {
 	return blocks
 }
 
-// Rendering
+// render blocks based on sort and channel selection
 function renderBlocks(sortMethod, channelFilter = 'all') {
 	container.innerHTML = ''
 	let sortedBlocks = sortBlocks(sortMethod)
@@ -130,7 +131,7 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 
 		const channelLabel = document.createElement('div')
 		channelLabel.classList.add('index-channel')
-		channelLabel.textContent = block.channelTitle?.toUpperCase() || 'misc'
+		channelLabel.textContent = block.channelTitle?.toUpperCase() || 'MISC'
 
 		const channelDesc = document.createElement('div')
 		channelDesc.classList.add('channel-description')
@@ -194,7 +195,7 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 	})
 }
 
-// Event Listeners
+// sort selection change
 sortSelect.addEventListener('change', (e) => {
 	const value = e.target.value
 	if (value === 'channel') {
@@ -206,6 +207,7 @@ sortSelect.addEventListener('change', (e) => {
 	}
 })
 
+// specific type of machine change
 channelSelect.addEventListener('change', (e) => {
 	renderBlocks('channel', e.target.value)
 })

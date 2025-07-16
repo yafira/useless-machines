@@ -2,11 +2,15 @@ const spinner = document.getElementById('loading-spinner')
 const container = document.getElementById('arena-content')
 const sortSelect = document.getElementById('sort-select')
 const channelSelect = document.getElementById('channel-select')
+const tabMachines = document.getElementById('tab-machines')
+const tabReadings = document.getElementById('tab-readings')
 container.classList.add('index')
 
-let blocks = []
+let machineBlocks = []
+let readingBlocks = []
+let currentView = 'machines'
 
-// fetch arena data and store all blocks
+// fetch arena data and split blocks by isMachine or isReading
 fetch('/api/arena')
 	.then((res) => {
 		if (!res.ok) throw new Error(`failed to fetch: ${res.status}`)
@@ -17,33 +21,35 @@ fetch('/api/arena')
 			if (!channel.blocks || channel.blocks.length === 0) return
 
 			channel.blocks.forEach((block) => {
-				blocks.push({
-					...block,
-					channelTitle: channel.title,
-					channelDescription: channel.description,
-				})
+				if (block.isReading) {
+					readingBlocks.push(block)
+				}
+				if (block.isMachine && !block.isReading) {
+					machineBlocks.push(block)
+				}
 			})
 		})
 
-		// deduplicate blocks by id to ensure only one entry per page
-		blocks = blocks.filter(
+		// deduplicate by id
+		machineBlocks = machineBlocks.filter(
+			(block, index, self) => index === self.findIndex((b) => b.id === block.id)
+		)
+		readingBlocks = readingBlocks.filter(
 			(block, index, self) => index === self.findIndex((b) => b.id === block.id)
 		)
 
-		populateChannelOptions() // create options for type of machine dropdown
-		renderBlocks('random') // render initial blocks in random order
+		populateChannelOptions()
+		renderBlocks(machineBlocks, 'random')
 		spinner.style.display = 'none'
 		container.style.display = 'flex'
 	})
-	.catch((err) => {
-		console.error('❌ error loading are.na data:', err)
-		spinner.style.display = 'none'
-		container.innerHTML = `<p>error: ${err.message}</p>`
-	})
 
-// populate second dropdown with unique channel names
+// populate machine-only dropdown for type of machine
 function populateChannelOptions() {
-	const uniqueChannels = [...new Set(blocks.map((b) => b.channelTitle))].sort()
+	if (!channelSelect) return
+	const uniqueChannels = [...new Set(machineBlocks.map((b) => b.channelTitle))]
+		.filter((c) => c !== 'Readings')
+		.sort()
 	channelSelect.innerHTML = '<option value="all">All Types</option>'
 	uniqueChannels.forEach((channel) => {
 		const opt = document.createElement('option')
@@ -54,7 +60,7 @@ function populateChannelOptions() {
 }
 
 // sorting methods for year, channel, random
-function sortBlocks(method) {
+function sortBlocks(blocks, method) {
 	if (method === 'year') {
 		return [...blocks].sort((a, b) => {
 			const getYear = (block) => {
@@ -79,10 +85,10 @@ function sortBlocks(method) {
 	return blocks
 }
 
-// render blocks based on sort and channel selection
-function renderBlocks(sortMethod, channelFilter = 'all') {
+// render blocks to page
+function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 	container.innerHTML = ''
-	let sortedBlocks = sortBlocks(sortMethod)
+	let sortedBlocks = sortBlocks(blocks, sortMethod)
 
 	if (sortMethod === 'channel' && channelFilter !== 'all') {
 		sortedBlocks = sortedBlocks.filter(
@@ -90,6 +96,7 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 		)
 	}
 
+	// build dom for each block
 	sortedBlocks.forEach((block) => {
 		const blockWrapper = document.createElement('div')
 		blockWrapper.classList.add('index-block')
@@ -157,7 +164,11 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 			content.appendChild(desc)
 		}
 
-		if (block.class === 'Image' && block.image?.display?.url) {
+		if (
+			block.class === 'Image' &&
+			block.image?.display?.url &&
+			currentView === 'machines'
+		) {
 			const imageWrapper = document.createElement('div')
 			imageWrapper.classList.add('image-container')
 
@@ -172,7 +183,7 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 			const p = document.createElement('p')
 			p.textContent = block.content
 			content.appendChild(p)
-		} else if (block.class === 'Link') {
+		} else if (block.class === 'Link' && currentView === 'machines') {
 			const a = document.createElement('a')
 			a.href = block.url || '#'
 			a.target = '_blank'
@@ -188,6 +199,7 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 			content.appendChild(a)
 		}
 
+		// toggle expand/collapse
 		row.addEventListener('click', (e) => {
 			if (e.target.tagName.toLowerCase() === 'a') return
 			const isVisible = content.style.display === 'block'
@@ -200,19 +212,39 @@ function renderBlocks(sortMethod, channelFilter = 'all') {
 	})
 }
 
-// sort selection change
+// sort dropdown change
 sortSelect.addEventListener('change', (e) => {
 	const value = e.target.value
 	if (value === 'channel') {
 		channelSelect.style.display = 'inline-block'
-		renderBlocks('channel')
+		renderBlocks(machineBlocks, 'channel')
 	} else {
 		channelSelect.style.display = 'none'
-		renderBlocks(value)
+		renderBlocks(machineBlocks, value)
 	}
 })
 
-// specific type of machine change
+// channel dropdown change
 channelSelect.addEventListener('change', (e) => {
-	renderBlocks('channel', e.target.value)
+	renderBlocks(machineBlocks, 'channel', e.target.value)
+})
+
+// machines tab click
+tabMachines.addEventListener('click', () => {
+	currentView = 'machines'
+	tabMachines.classList.add('active')
+	tabReadings.classList.remove('active')
+	sortSelect.disabled = false
+	channelSelect.style.display = 'none'
+	renderBlocks(machineBlocks, 'random')
+})
+
+// readings tab click
+tabReadings.addEventListener('click', () => {
+	currentView = 'readings'
+	tabReadings.classList.add('active')
+	tabMachines.classList.remove('active')
+	sortSelect.disabled = true
+	channelSelect.style.display = 'none'
+	renderBlocks(readingBlocks, 'random')
 })

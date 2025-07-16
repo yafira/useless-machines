@@ -77,6 +77,30 @@ h1 {
 	}
 }
 
+/* nav */
+.site-nav {
+	text-align: center;
+	font-size: 0.9rem;
+	margin-bottom: 1rem;
+}
+
+.site-nav button {
+	background: none;
+	border: none;
+	font-family: 'Oxanium', sans-serif;
+	font-size: 0.9rem;
+	padding: 0.5rem 1rem;
+	margin: 0 0.25rem;
+	cursor: pointer;
+	color: #333;
+	border-bottom: 2px solid transparent;
+}
+
+.site-nav button.active {
+	border-color: #333;
+	font-weight: 600;
+}
+
 /* sort dropdowns */
 .sort-options {
 	text-align: center;

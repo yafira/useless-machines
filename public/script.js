@@ -25,6 +25,11 @@ fetch('/api/arena')
 			})
 		})
 
+		// deduplicate blocks by id to ensure only one entry per page
+		blocks = blocks.filter(
+			(block, index, self) => index === self.findIndex((b) => b.id === block.id)
+		)
+
 		populateChannelOptions() // create options for type of machine dropdown
 		renderBlocks('random') // render initial blocks in random order
 		spinner.style.display = 'none'

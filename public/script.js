@@ -245,7 +245,7 @@ tabMachines.addEventListener('click', () => {
 	tabReadings.classList.remove('active')
 	sortSelect.disabled = false
 	channelSelect.style.display = 'none'
-	renderBlocks(machineBlocks, 'random')
+	renderBlocks(machineBlocks, 'year')
 })
 
 // readings tab click

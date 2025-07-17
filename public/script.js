@@ -39,7 +39,8 @@ fetch('/api/arena')
 		)
 
 		populateChannelOptions()
-		renderBlocks(machineBlocks, 'random')
+		renderBlocks(machineBlocks, 'year')
+		sortSelect.value = 'year'
 		spinner.style.display = 'none'
 		container.style.display = 'flex'
 	})

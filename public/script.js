@@ -98,12 +98,17 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 	}
 
 	// build dom for each block
-	sortedBlocks.forEach((block) => {
+	sortedBlocks.forEach((block, idx) => {
 		const blockWrapper = document.createElement('div')
 		blockWrapper.classList.add('index-block')
 
 		const row = document.createElement('div')
 		row.classList.add('index-row')
+
+		// index number
+		const indexNumber = document.createElement('div')
+		indexNumber.classList.add('index-number')
+		indexNumber.textContent = String(idx + 1).padStart(2, '0')
 
 		const yearColumn = document.createElement('div')
 		yearColumn.classList.add('index-year')
@@ -162,6 +167,7 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 		right.append(channelLabel, channelDesc)
 
 		row.append(yearColumn, left, right)
+		row.prepend(indexNumber)
 
 		const content = document.createElement('div')
 		content.classList.add('block-content')
@@ -214,7 +220,7 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 			if (e.target.tagName.toLowerCase() === 'a') return
 			const isVisible = content.style.display === 'block'
 			content.style.display = isVisible ? 'none' : 'block'
-			arrow.textContent = isVisible ? '›' : '⌄'
+			row.classList.toggle('expanded', !isVisible)
 		})
 
 		blockWrapper.append(row, content)

@@ -86,6 +86,8 @@ h1 {
 
 .site-nav button {
 	background: none;
+	position: relative;
+	transition: color 0.2s ease;
 	border: none;
 	font-family: 'Oxanium', sans-serif;
 	font-size: 0.9rem;
@@ -93,12 +95,21 @@ h1 {
 	margin: 0 0.25rem;
 	cursor: pointer;
 	color: #333;
-	border-bottom: 2px solid transparent;
 }
 
-.site-nav button.active {
-	border-color: #333;
-	font-weight: 600;
+.site-nav button::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0%;
+	height: 2px;
+	background-color: #333;
+	transition: width 0.2s ease;
+}
+
+.site-nav button.active::after {
+	width: 100%;
 }
 
 /* sort dropdowns */
@@ -144,23 +155,39 @@ h1 {
 	align-items: center;
 	background: #f4f3ee;
 	padding: 1rem 1.25rem;
-	transition: background 0.2s;
+	transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 	cursor: pointer;
 	gap: 1rem;
 }
 
 .index-row:hover {
 	background: #dcd8cd;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	transform: translateX(2px);
+}
+
+.index-arrow {
+	font-size: 0.75rem;
+	color: rgba(85, 85, 85, 0.4);
+	min-width: 1em;
+	text-align: center;
+	font-weight: 600;
+	transition: transform 0.2s ease;
+}
+
+.index-row.expanded .index-arrow {
+	transform: rotate(90deg);
 }
 
 /* year column */
 .index-year {
 	width: 60px;
-	font-size: 0.9rem;
-	color: #888;
+	font-size: 1.2rem;
+	color: #444;
 	text-align: left;
 	padding-right: 0.5rem;
 	flex-shrink: 0;
+	font-weight: 500;
 }
 
 /* left column (title / artist) */
@@ -175,6 +202,35 @@ h1 {
 	display: flex;
 	flex-direction: column;
 	gap: 0.15rem;
+}
+
+/* index number small rounded box */
+.index-number {
+	padding: 0.1rem 0.4rem;
+	border: 1px solid #ccc;
+	border-radius: 0.25rem;
+	font-size: 0.65rem;
+	font-weight: 400;
+	color: #222;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	margin-right: 0.5rem;
+	line-height: 1;
+	opacity: 0.75;
+	transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+
+.index-number:hover {
+	background-color: #adaaa5;
+	opacity: 1;
+	cursor: default;
+}
+
+.index-number:active {
+	transform: translateY(1px);
+	opacity: 0.9;
 }
 
 .index-title {
@@ -206,15 +262,6 @@ h1 {
 	text-transform: uppercase;
 	font-weight: 600;
 	letter-spacing: 0.03em;
-}
-
-.index-arrow {
-	font-size: 0.75rem;
-	color: rgba(85, 85, 85, 0.4);
-	min-width: 1em;
-	text-align: center;
-	font-weight: 600;
-	transition: transform 0.2s ease;
 }
 
 /* index thumbnail preview */

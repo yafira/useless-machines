@@ -121,6 +121,15 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 			.split('|')
 			.map((s) => s.trim())
 
+		// add thumbnail preview if available
+		if (block.image?.thumb?.url && currentView === 'machines') {
+			const thumb = document.createElement('img')
+			thumb.src = block.image.thumb.url
+			thumb.alt = block.title || 'thumbnail'
+			thumb.classList.add('index-thumbnail')
+			left.appendChild(thumb)
+		}
+
 		const pieceTitle = document.createElement('div')
 		pieceTitle.classList.add('index-title')
 		pieceTitle.textContent = piece

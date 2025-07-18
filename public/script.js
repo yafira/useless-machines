@@ -264,3 +264,21 @@ tabReadings.addEventListener('click', () => {
 	channelSelect.style.display = 'none'
 	renderBlocks(readingBlocks, 'random')
 })
+
+// dark mode toggle with localStorage
+const darkToggle = document.getElementById('dark-toggle')
+
+if (localStorage.getItem('darkMode') === 'enabled') {
+	document.body.classList.add('dark-mode')
+	darkToggle.checked = true
+}
+
+darkToggle.addEventListener('change', () => {
+	if (darkToggle.checked) {
+		document.body.classList.add('dark-mode')
+		localStorage.setItem('darkMode', 'enabled')
+	} else {
+		document.body.classList.remove('dark-mode')
+		localStorage.setItem('darkMode', 'disabled')
+	}
+})

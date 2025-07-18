@@ -1,4 +1,4 @@
-/* general layout */
+/* base layout */
 body {
 	font-family: 'Oxanium', sans-serif;
 	background: #f4f3ee;
@@ -17,7 +17,6 @@ h1 {
 	font-weight: 700;
 }
 
-/* corner screws */
 .corner {
 	position: fixed;
 	width: 40px;
@@ -32,23 +31,19 @@ h1 {
 	top: 0.75rem;
 	left: 0.75rem;
 }
-
 .top-right {
 	top: 0.75rem;
 	right: 0.75rem;
 }
-
 .bottom-left {
 	bottom: 0.75rem;
 	left: 0.75rem;
 }
-
 .bottom-right {
 	bottom: 0.75rem;
 	right: 0.75rem;
 }
 
-/* loading spinner */
 #loading-spinner {
 	position: fixed;
 	top: 0;
@@ -77,7 +72,6 @@ h1 {
 	}
 }
 
-/* nav */
 .site-nav {
 	text-align: center;
 	font-size: 0.9rem;
@@ -87,7 +81,6 @@ h1 {
 .site-nav button {
 	background: none;
 	position: relative;
-	transition: color 0.2s ease;
 	border: none;
 	font-family: 'Oxanium', sans-serif;
 	font-size: 0.9rem;
@@ -100,19 +93,20 @@ h1 {
 .site-nav button::after {
 	content: '';
 	position: absolute;
-	bottom: -2px;
-	left: 0;
-	width: 0%;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%) scaleX(0);
+	width: 80%;
 	height: 2px;
 	background-color: #333;
-	transition: width 0.2s ease;
+	transform-origin: center;
+	transition: transform 0.25s ease;
 }
 
 .site-nav button.active::after {
-	width: 100%;
+	transform: translateX(-50%) scaleX(1);
 }
 
-/* sort dropdowns */
 .sort-options {
 	text-align: center;
 	margin-bottom: 1rem;
@@ -133,7 +127,6 @@ h1 {
 	margin-left: 0.5rem;
 }
 
-/* arena content container */
 #arena-content.index {
 	max-width: 1000px;
 	margin: 0 auto;
@@ -144,7 +137,6 @@ h1 {
 	overflow: hidden;
 }
 
-/* block row */
 .index-block {
 	border-bottom: 1px solid #ccc;
 }
@@ -155,7 +147,7 @@ h1 {
 	align-items: center;
 	background: #f4f3ee;
 	padding: 1rem 1.25rem;
-	transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+	transition: background 0.2s ease, transform 0.2s ease;
 	cursor: pointer;
 	gap: 1rem;
 }
@@ -163,23 +155,8 @@ h1 {
 .index-row:hover {
 	background: #dcd8cd;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-	transform: translateX(2px);
 }
 
-.index-arrow {
-	font-size: 0.75rem;
-	color: rgba(85, 85, 85, 0.4);
-	min-width: 1em;
-	text-align: center;
-	font-weight: 600;
-	transition: transform 0.2s ease;
-}
-
-.index-row.expanded .index-arrow {
-	transform: rotate(90deg);
-}
-
-/* year column */
 .index-year {
 	width: 60px;
 	font-size: 1.2rem;
@@ -190,7 +167,6 @@ h1 {
 	font-weight: 500;
 }
 
-/* left column (title / artist) */
 .index-left {
 	display: flex;
 	align-items: center;
@@ -204,7 +180,6 @@ h1 {
 	gap: 0.15rem;
 }
 
-/* index number small rounded box */
 .index-number {
 	padding: 0.1rem 0.4rem;
 	border: 1px solid #ccc;
@@ -219,7 +194,6 @@ h1 {
 	margin-right: 0.5rem;
 	line-height: 1;
 	opacity: 0.75;
-	transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
 }
 
 .index-number:hover {
@@ -246,7 +220,6 @@ h1 {
 	font-weight: 400;
 }
 
-/* right column (channel label) */
 .index-right {
 	display: flex;
 	flex-direction: column;
@@ -264,7 +237,15 @@ h1 {
 	letter-spacing: 0.03em;
 }
 
-/* index thumbnail preview */
+.index-arrow {
+	font-size: 0.75rem;
+	color: rgba(85, 85, 85, 0.4);
+	min-width: 1em;
+	text-align: center;
+	font-weight: 600;
+	transition: transform 0.2s ease;
+}
+
 .index-thumbnail {
 	width: 40px;
 	height: 40px;
@@ -274,7 +255,6 @@ h1 {
 	opacity: 0.9;
 }
 
-/* block content (hidden on load) */
 .block-content {
 	display: none;
 	background: #fff;
@@ -283,7 +263,6 @@ h1 {
 	color: #444;
 }
 
-/* descriptions */
 .channel-description {
 	font-size: 0.85rem;
 	color: #888;
@@ -297,7 +276,6 @@ h1 {
 	margin-bottom: 0.75rem;
 }
 
-/* images */
 .image-container {
 	width: 100%;
 	aspect-ratio: 4 / 3;
@@ -316,7 +294,6 @@ h1 {
 	display: block;
 }
 
-/* links and text content */
 .block-content p {
 	margin: 0;
 }
@@ -332,76 +309,81 @@ h1 {
 	text-decoration: underline;
 }
 
-/* mobile responsive adjustments */
-@media (max-width: 700px) {
+/* mobile responsive */
+@media (max-width: 900px) {
 	.corner {
 		display: none;
 	}
 
 	body {
+		padding: 0;
+		background: #fff;
+		font-size: 18px;
+	}
+
+	main {
 		padding: 1rem;
-		font-size: 1rem;
-		line-height: 1.7;
 	}
 
 	h1 {
-		font-size: 2.25rem;
+		font-size: 2.5rem;
 		margin-bottom: 1.5rem;
+		text-align: center;
 	}
 
-	.site-nav {
-		margin-bottom: 1.5rem;
+	#arena-content.index {
+		max-width: none;
+		width: 100%;
+		border: none;
+		border-radius: 0;
+		padding: 0;
 	}
 
 	.index-row {
+		padding: 1.2rem 1rem;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 0.5rem;
-		padding: 1rem;
+		gap: 0.75rem;
 	}
 
-	.index-left {
-		flex-direction: row;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.index-right,
 	.index-year {
-		display: none;
-	}
-
-	.index-title {
-		font-size: 1.1rem;
-	}
-
-	.index-meta {
-		font-size: 0.9rem;
+		font-size: 1.25rem;
+		font-weight: 500;
 	}
 
 	.index-number {
-		font-size: 0.75rem;
-		padding: 0.15rem 0.5rem;
+		font-size: 0.8rem;
+		padding: 0.2rem 0.5rem;
+		margin-right: 0.75rem;
 	}
 
-	.index-block {
-		border-bottom: 1px solid #ccc;
-		padding-bottom: 0.75rem;
-		margin-bottom: 0.75rem;
+	.index-title {
+		font-size: 1.3rem;
 	}
 
-	.block-content {
-		padding: 0.75rem;
+	.index-meta {
 		font-size: 1rem;
 	}
 
-	.image-container {
-		aspect-ratio: 1 / 1;
-		margin-top: 0.75rem;
+	.index-right {
+		width: 100%;
+		align-items: flex-start;
+		text-align: left;
+		font-size: 0.95rem;
+		gap: 0.25rem;
 	}
 
-	.index-thumbnail {
-		width: 36px;
-		height: 36px;
+	.index-channel {
+		font-size: 0.9rem;
+	}
+
+	.sort-options {
+		font-size: 1rem;
+	}
+
+	#sort-select,
+	#channel-select {
+		font-size: 1rem;
+		padding: 0.4rem 0.6rem;
 	}
 }

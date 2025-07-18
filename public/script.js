@@ -199,7 +199,7 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 			const p = document.createElement('p')
 			p.textContent = block.content
 			content.appendChild(p)
-		} else if (block.class === 'Link' && currentView === 'machines') {
+		} else if (block.class === 'Link') {
 			const a = document.createElement('a')
 			a.href = block.url || '#'
 			a.target = '_blank'

@@ -220,7 +220,7 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 			if (e.target.tagName.toLowerCase() === 'a') return
 			const isVisible = content.style.display === 'block'
 			content.style.display = isVisible ? 'none' : 'block'
-			row.classList.toggle('expanded', !isVisible)
+			arrow.textContent = isVisible ? '›' : '⌄'
 		})
 
 		blockWrapper.append(row, content)

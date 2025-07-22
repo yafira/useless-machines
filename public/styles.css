@@ -1,4 +1,4 @@
-/* base layout */
+/* general layout */
 body {
 	font-family: 'Oxanium', sans-serif;
 	background: #f4f3ee;
@@ -17,6 +17,7 @@ h1 {
 	font-weight: 700;
 }
 
+/* corner screws */
 .corner {
 	position: fixed;
 	width: 40px;
@@ -31,19 +32,23 @@ h1 {
 	top: 0.75rem;
 	left: 0.75rem;
 }
+
 .top-right {
 	top: 0.75rem;
 	right: 0.75rem;
 }
+
 .bottom-left {
 	bottom: 0.75rem;
 	left: 0.75rem;
 }
+
 .bottom-right {
 	bottom: 0.75rem;
 	right: 0.75rem;
 }
 
+/* loading spinner */
 #loading-spinner {
 	position: fixed;
 	top: 0;
@@ -72,6 +77,7 @@ h1 {
 	}
 }
 
+/* nav */
 .site-nav {
 	text-align: center;
 	font-size: 0.9rem;
@@ -81,6 +87,7 @@ h1 {
 .site-nav button {
 	background: none;
 	position: relative;
+	transition: color 0.2s ease;
 	border: none;
 	font-family: 'Oxanium', sans-serif;
 	font-size: 0.9rem;
@@ -88,25 +95,26 @@ h1 {
 	margin: 0 0.25rem;
 	cursor: pointer;
 	color: #333;
+	border-bottom: 2px solid transparent;
 }
 
-.site-nav button::after {
-	content: '';
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	transform: translateX(-50%) scaleX(0);
-	width: 80%;
-	height: 2px;
-	background-color: #333;
-	transform-origin: center;
-	transition: transform 0.25s ease;
+.site-nav button.active {
+	border-color: #333;
+	font-weight: 600;
 }
 
 .site-nav button.active::after {
-	transform: translateX(-50%) scaleX(1);
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	transition: width 0.2s ease;
 }
 
+/* sort dropdowns */
 .sort-options {
 	text-align: center;
 	margin-bottom: 1rem;
@@ -127,6 +135,7 @@ h1 {
 	margin-left: 0.5rem;
 }
 
+/* arena content container */
 #arena-content.index {
 	max-width: 1000px;
 	margin: 0 auto;
@@ -137,6 +146,7 @@ h1 {
 	overflow: hidden;
 }
 
+/* block row */
 .index-block {
 	border-bottom: 1px solid #ccc;
 }
@@ -238,17 +248,12 @@ h1 {
 }
 
 .index-arrow {
-	display: inline-block;
 	font-size: 0.75rem;
 	color: rgba(85, 85, 85, 0.4);
 	min-width: 1em;
 	text-align: center;
 	font-weight: 600;
 	transition: transform 0.2s ease;
-}
-
-.index-arrow.open {
-	transform: rotate(90deg);
 }
 
 .index-thumbnail {
@@ -260,6 +265,7 @@ h1 {
 	opacity: 0.9;
 }
 
+/* block content (hidden on load) */
 .block-content {
 	display: none;
 	background: #fff;
@@ -314,81 +320,77 @@ h1 {
 	text-decoration: underline;
 }
 
-/* mobile responsive */
-@media (max-width: 900px) {
-	.corner {
-		display: none;
-	}
-
+/* mobile adjustments */
+@media (max-width: 700px) {
 	body {
-		padding: 0;
-		background: #fff;
-		font-size: 18px;
-	}
-
-	main {
 		padding: 1rem;
+		font-size: 1rem;
+		line-height: 1.6;
 	}
 
 	h1 {
-		font-size: 2.5rem;
-		margin-bottom: 1.5rem;
-		text-align: center;
-	}
-
-	#arena-content.index {
-		max-width: none;
-		width: 100%;
-		border: none;
-		border-radius: 0;
-		padding: 0;
+		font-size: 3rem;
 	}
 
 	.index-row {
-		padding: 1.2rem 1rem;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 0.75rem;
+		gap: 0.5rem;
+		padding: 1rem;
 	}
 
 	.index-year {
-		font-size: 1.25rem;
-		font-weight: 500;
+		font-size: 1rem;
+		width: auto;
+		text-align: left;
+		margin-top: 0.25rem;
+		color: #444;
 	}
 
-	.index-number {
-		font-size: 0.8rem;
-		padding: 0.2rem 0.5rem;
-		margin-right: 0.75rem;
+	.index-left {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.3rem;
 	}
 
 	.index-title {
-		font-size: 1.3rem;
+		font-size: 1.25rem;
+		font-weight: 600;
 	}
 
 	.index-meta {
 		font-size: 1rem;
+		color: #666;
 	}
 
 	.index-right {
 		width: 100%;
 		align-items: flex-start;
 		text-align: left;
-		font-size: 0.95rem;
-		gap: 0.25rem;
+		margin-top: 0.25rem;
+		font-size: 0.9rem;
+		line-height: 1.4;
 	}
 
 	.index-channel {
 		font-size: 0.9rem;
+		font-weight: 600;
 	}
 
-	.sort-options {
-		font-size: 1rem;
+	.index-thumbnail {
+		width: 48px;
+		height: 48px;
+		border-radius: 6px;
+		margin-bottom: 0.25rem;
 	}
 
-	#sort-select,
-	#channel-select {
-		font-size: 1rem;
-		padding: 0.4rem 0.6rem;
+	.index-number {
+		font-size: 0.8rem;
+		padding: 0.15rem 0.5rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.corner {
+		display: none;
 	}
 }

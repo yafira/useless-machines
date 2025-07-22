@@ -54,71 +54,92 @@ body.dark-mode {
 body.dark-mode h1 {
 	color: #eee;
 }
+
 body.dark-mode #arena-content.index {
 	border: 1px solid #333;
 	background: #1a1a1a;
 }
+
 body.dark-mode .index-row {
 	background: #1a1a1a;
 }
+
 body.dark-mode .index-row:hover {
 	background: #222;
 	box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
 }
+
 body.dark-mode .index-number {
 	border: 1px solid #555;
 	color: #ccc;
 	background: #1a1a1a;
 }
+
 body.dark-mode .index-number:hover {
 	background-color: #444;
 }
+
 body.dark-mode .index-year {
 	color: #bbb;
 }
+
 body.dark-mode .index-title {
 	color: #eee;
 }
+
 body.dark-mode .index-meta {
 	color: #aaa;
 }
+
 body.dark-mode .index-channel {
 	color: #ccc;
 }
+
 body.dark-mode .index-arrow {
 	color: rgba(200, 200, 200, 0.4);
 }
+
 body.dark-mode .index-thumbnail {
 	opacity: 0.85;
 }
+
 body.dark-mode .channel-description {
 	color: #777;
 }
+
 body.dark-mode .block-content {
 	background: #222;
 	color: #ddd;
 }
+
 body.dark-mode .block-description {
 	color: #aaa;
 }
+
 body.dark-mode .image-container {
 	background: #333;
 }
+
 body.dark-mode .block-content a {
 	color: #80e0ff;
 }
+
 body.dark-mode .block-content a:hover {
 	color: #b3f0ff;
 }
+
 body.dark-mode #loading-spinner {
 	background: #111;
 }
+
 body.dark-mode .gear-spinner {
 	border-color: #777;
 }
+
 body.dark-mode .site-nav button {
 	color: #ccc;
 }
+
 body.dark-mode .site-nav button::after {
 	background-color: #777;
 }
@@ -126,9 +147,11 @@ body.dark-mode .site-nav button::after {
 body.dark-mode .site-nav button.active::after {
 	background-color: #fff;
 }
+
 body.dark-mode .sort-options label {
 	color: #ccc;
 }
+
 body.dark-mode #sort-select,
 body.dark-mode #channel-select {
 	background: #111;
@@ -136,9 +159,9 @@ body.dark-mode #channel-select {
 	border: 1px solid #555;
 }
 
-/* hide on mobile */
+/* hide screws on mobile */
 @media (max-width: 700px) {
-	.toggle-switch {
+	.corner {
 		display: none;
 	}
 }

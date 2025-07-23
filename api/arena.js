@@ -1,4 +1,6 @@
 const fetch = require('node-fetch')
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 
 module.exports = async (req, res) => {
 	const GROUP_SLUG = 'useless-machines'
@@ -56,7 +58,7 @@ module.exports = async (req, res) => {
 								image: block.image,
 								url: block.source?.url || block.image?.display?.url || null,
 								metadata: block.metadata || null,
-								description: block.metadata?.description || null,
+								description: sanitizeHTML(block.description_html),
 								isReading: isReadingBlock,
 								isMachine: isMachineBlock,
 								channelTitle: channel.title,
@@ -67,9 +69,25 @@ module.exports = async (req, res) => {
 				})
 		)
 
-		res.status(200).json({ group: GROUP_SLUG, channels: channelBlocks })
+		res.status(200).json({ group: GROUP_SLUG, channels: channelBlocks, categoriesPerBlock })
 	} catch (err) {
 		console.error('❌ Fetch error:', err)
 		res.status(500).json({ error: 'Fetch failed', details: err.message })
 	}
+}
+
+/**
+ * Sanitize HTML before serving
+ * 
+ * @param {string} rawHTMLStr - description from Are.na
+ * @returns string
+ */
+function sanitizeHTML(rawHTMLStr) {
+	if (!rawHTMLStr) {
+		return null;
+	}
+	const window = new JSDOM('').window;
+	const DOMPurify = createDOMPurify(window);
+
+	return DOMPurify.sanitize(rawHTMLStr);
 }

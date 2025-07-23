@@ -1,25 +1,18 @@
 // handles data fetching, sorting, and rendering blocks
 
-// references to DOM elements
-const spinner = document.getElementById('loading-spinner')
-const container = document.getElementById('arena-content')
-const sortSelect = document.getElementById('sort-select')
-const channelSelect = document.getElementById('channel-select')
-const tabMachines = document.getElementById('tab-machines')
-const tabReadings = document.getElementById('tab-readings')
-container.classList.add('index') // default layout
-
+// data containers
 let machineBlocks = []
 let readingBlocks = []
 let currentView = 'machines'
 
-// fetch arena data and split into machine and reading blocks
+// fetch arena data and populate UI
 fetch('/api/arena')
 	.then((res) => {
 		if (!res.ok) throw new Error(`failed to fetch: ${res.status}`)
 		return res.json()
 	})
 	.then((data) => {
+		// separate into machine and reading blocks
 		data.channels.forEach((channel) => {
 			if (!channel.blocks || channel.blocks.length === 0) return
 
@@ -35,10 +28,10 @@ fetch('/api/arena')
 
 		// deduplicate
 		machineBlocks = machineBlocks.filter(
-			(block, index, self) => index === self.findIndex((b) => b.id === block.id)
+			(b, i, self) => i === self.findIndex((x) => x.id === b.id)
 		)
 		readingBlocks = readingBlocks.filter(
-			(block, index, self) => index === self.findIndex((b) => b.id === block.id)
+			(b, i, self) => i === self.findIndex((x) => x.id === b.id)
 		)
 
 		populateChannelOptions()
@@ -48,22 +41,7 @@ fetch('/api/arena')
 		container.style.display = 'flex'
 	})
 
-// populate dropdown of unique machine channels
-function populateChannelOptions() {
-	if (!channelSelect) return
-	const uniqueChannels = [...new Set(machineBlocks.map((b) => b.channelTitle))]
-		.filter((c) => c !== 'Readings')
-		.sort()
-	channelSelect.innerHTML = '<option value="all">All Types</option>'
-	uniqueChannels.forEach((channel) => {
-		const opt = document.createElement('option')
-		opt.value = channel
-		opt.textContent = channel
-		channelSelect.appendChild(opt)
-	})
-}
-
-// sort methods: by year, channel, or random
+// helper to sort blocks
 function sortBlocks(blocks, method) {
 	if (method === 'year') {
 		return [...blocks].sort((a, b) => {
@@ -87,4 +65,19 @@ function sortBlocks(blocks, method) {
 		return shuffled
 	}
 	return blocks
+}
+
+// populate dropdown for channel filter
+function populateChannelOptions() {
+	if (!channelSelect) return
+	const uniqueChannels = [...new Set(machineBlocks.map((b) => b.channelTitle))]
+		.filter((c) => c !== 'Readings')
+		.sort()
+	channelSelect.innerHTML = '<option value="all">All Types</option>'
+	uniqueChannels.forEach((channel) => {
+		const opt = document.createElement('option')
+		opt.value = channel
+		opt.textContent = channel
+		channelSelect.appendChild(opt)
+	})
 }

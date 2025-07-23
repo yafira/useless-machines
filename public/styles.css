@@ -358,24 +358,6 @@ h1 {
 	margin: 0;
 }
 
-/* base style for links in readings view */
-.readings-view .index-title a {
-	color: #111; /* match text color */
-	text-decoration: none;
-	font-weight: 500;
-	transition: color 0.2s ease;
-}
-
-/* hover state for feedback */
-.readings-view .index-title a:hover {
-	color: #555; /* subtle shift */
-}
-
-/* prevent visited (purple) color */
-.readings-view .index-title a:visited {
-	color: #111;
-}
-
 .readings-view .index-meta {
 	font-size: 0.9rem;
 	color: #555;

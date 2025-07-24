@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "dompurify": "^3.2.6",
+    "jsdom": "^26.1.0"
   }
 }

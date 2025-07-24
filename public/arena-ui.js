@@ -115,9 +115,16 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 		content.style.display = currentView === 'readings' ? 'block' : 'none'
 
 		if (block.description) {
-			const desc = document.createElement('p')
+			const desc = document.createElement('div')
 			desc.classList.add('block-description')
-			desc.textContent = block.description
+			desc.innerHTML = block.description
+
+			// open links in new window
+			const links = desc.querySelectorAll('a');
+			links.forEach(link => {
+				link.setAttribute('target', '_blank');
+				link.setAttribute('rel', 'noopener noreferrer');
+			});
 			content.appendChild(desc)
 		}
 

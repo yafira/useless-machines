@@ -4,6 +4,7 @@
 let machineBlocks = []
 let readingBlocks = []
 let currentView = 'machines'
+const categoryMap = {} // block.id => Set of categories
 
 // fetch arena data and populate UI
 fetch('/api/arena')
@@ -17,12 +18,17 @@ fetch('/api/arena')
 			if (!channel.blocks || channel.blocks.length === 0) return
 
 			channel.blocks.forEach((block) => {
+				// assign to machine or reading lists
 				if (block.isReading) {
 					readingBlocks.push(block)
 				}
 				if (block.isMachine && !block.isReading) {
 					machineBlocks.push(block)
 				}
+
+				// build category map
+				if (!categoryMap[block.id]) categoryMap[block.id] = new Set()
+				categoryMap[block.id].add(channel.title)
 			})
 		})
 
@@ -70,9 +76,13 @@ function sortBlocks(blocks, method) {
 // populate dropdown for channel filter
 function populateChannelOptions() {
 	if (!channelSelect) return
-	const uniqueChannels = [...new Set(machineBlocks.map((b) => b.channelTitle))]
-		.filter((c) => c !== 'Readings')
-		.sort()
+	const allCategories = new Set()
+	Object.values(categoryMap).forEach((set) => {
+		set.forEach((cat) => {
+			if (cat !== 'Readings') allCategories.add(cat)
+		})
+	})
+	const uniqueChannels = [...allCategories].sort()
 	channelSelect.innerHTML = '<option value="all">All Types</option>'
 	uniqueChannels.forEach((channel) => {
 		const opt = document.createElement('option')

@@ -251,6 +251,11 @@ body.dark-mode .readings-view .index-block {
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
 }
 
+body.dark-mode .small-tag {
+	color: #ddd;
+	background: #444;
+}
+
 /* dark mode mobile adjustments */
 @media (max-width: 700px) {
 	body.dark-mode .index-year {

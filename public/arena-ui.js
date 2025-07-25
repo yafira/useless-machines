@@ -17,8 +17,8 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 	let sortedBlocks = sortBlocks(blocks, sortMethod)
 
 	if (sortMethod === 'channel' && channelFilter !== 'all') {
-		sortedBlocks = sortedBlocks.filter(
-			(block) => block.channelTitle === channelFilter
+		sortedBlocks = sortedBlocks.filter((block) =>
+			categoryMap[block.id]?.has(channelFilter)
 		)
 	}
 
@@ -97,15 +97,23 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 		}
 
 		if (currentView === 'machines') {
-			const channelLabel = document.createElement('div')
-			channelLabel.classList.add('index-channel')
-			channelLabel.textContent = block.channelTitle?.toUpperCase() || 'MISC'
+			const categoryLabel = document.createElement('div')
+			categoryLabel.classList.add('index-channel')
+
+			const categories = categoryMap[block.id]
+			if (categories) {
+				categoryLabel.innerHTML = [...categories]
+					.map((cat) => `<span class="small-tag">${cat.toUpperCase()}</span>`)
+					.join(' ')
+			} else {
+				categoryLabel.textContent = block.channelTitle?.toUpperCase() || 'MISC'
+			}
 
 			const channelDesc = document.createElement('div')
 			channelDesc.classList.add('channel-description')
 			channelDesc.textContent = block.channelDescription || ''
 
-			right.append(channelLabel, channelDesc)
+			right.append(categoryLabel, channelDesc)
 		}
 
 		row.append(yearColumn, left, right)
@@ -118,13 +126,11 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 			const desc = document.createElement('div')
 			desc.classList.add('block-description')
 			desc.innerHTML = block.description
-
-			// open links in new window
-			const links = desc.querySelectorAll('a');
-			links.forEach(link => {
-				link.setAttribute('target', '_blank');
-				link.setAttribute('rel', 'noopener noreferrer');
-			});
+			const links = desc.querySelectorAll('a')
+			links.forEach((link) => {
+				link.setAttribute('target', '_blank')
+				link.setAttribute('rel', 'noopener noreferrer')
+			})
 			content.appendChild(desc)
 		}
 

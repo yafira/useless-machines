@@ -60,6 +60,10 @@ body.dark-mode #arena-content.index {
 	background: #1a1a1a;
 }
 
+body.dark-mode .index-block {
+	border-bottom: 1px solid #333;
+}
+
 body.dark-mode .index-row {
 	background: #1a1a1a;
 }
@@ -140,8 +144,8 @@ body.dark-mode .site-nav button {
 	color: #ccc;
 }
 
-body.dark-mode .site-nav button::after {
-	background-color: #777;
+body.dark-mode .site-nav button.active {
+	border-color: #ccc;
 }
 
 body.dark-mode .site-nav button.active::after {
@@ -154,9 +158,45 @@ body.dark-mode .sort-options label {
 
 body.dark-mode #sort-select,
 body.dark-mode #channel-select {
-	background: #111;
+	background: #222;
 	color: #eee;
 	border: 1px solid #555;
+}
+
+/* dark mode readings view */
+body.dark-mode .readings-view .index-block {
+	background: #1a1a1a;
+	border: 1px solid #333;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .readings-view .index-block:hover {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .readings-view .index-title {
+	color: #eee;
+}
+
+body.dark-mode .readings-view .index-meta {
+	color: #aaa;
+}
+
+body.dark-mode .readings-view .index-channel {
+	color: #bbb;
+	background: #333;
+}
+
+body.dark-mode .readings-view .block-content {
+	color: #ddd;
+}
+
+body.dark-mode .readings-view .block-content a {
+	color: #80e0ff;
+}
+
+body.dark-mode .readings-view .block-content a:hover {
+	color: #b3f0ff;
 }
 
 /* dark mode base for reading links */
@@ -211,9 +251,13 @@ body.dark-mode .readings-view .index-block {
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
 }
 
-/* hide screws on mobile */
+/* dark mode mobile adjustments */
 @media (max-width: 700px) {
-	.corner {
-		display: none;
+	body.dark-mode .index-year {
+		color: #bbb;
+	}
+
+	body.dark-mode .index-meta {
+		color: #aaa;
 	}
 }

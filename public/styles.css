@@ -444,6 +444,9 @@ h1 {
 	margin-left: 0.25rem;
 	text-transform: uppercase;
 	display: inline-block;
+	cursor: pointer;
+	border: none;
+	transition: background 0.2s ease;
 }
 
 /* mobile adjustments */

@@ -9,11 +9,16 @@ body {
 	line-height: 1.6;
 }
 
+.center-toggle {
+	text-align: center;
+	margin: 1rem 0 0.5rem 0;
+}
+
 h1 {
 	text-align: center;
 	font-size: 6rem;
 	letter-spacing: 0.05em;
-	margin-bottom: 2rem;
+	margin-bottom: 0.75rem; /* tighten slightly if needed */
 	font-weight: 700;
 }
 
@@ -81,7 +86,8 @@ h1 {
 .site-nav {
 	text-align: center;
 	font-size: 0.9rem;
-	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+	margin-bottom: 1.5rem;
 }
 
 .site-nav button {
@@ -447,6 +453,12 @@ h1 {
 	cursor: pointer;
 	border: none;
 	transition: background 0.2s ease;
+}
+
+.small-tag:hover {
+	background: #ccc;
+	color: #000;
+	cursor: default;
 }
 
 /* mobile adjustments */

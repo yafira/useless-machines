@@ -25,14 +25,20 @@
 		<main>
 			<h1>Useless Machines</h1>
 
-			<nav class="site-nav">
-				<button id="tab-machines" class="active">All Machines</button>
-				<button id="tab-readings">Readings / Docs</button>
-				<label class="toggle-switch">
-					<input type="checkbox" id="dark-toggle" />
-					<span class="slider"></span>
-				</label>
-			</nav>
+			<!--toggle switch -->
+			<div class="control-cluster">
+				<div class="center-toggle">
+					<label class="toggle-switch">
+						<input type="checkbox" id="dark-toggle" />
+						<span class="slider"></span>
+					</label>
+				</div>
+				<!-- nav -->
+				<nav class="site-nav">
+					<button id="tab-machines" class="active">All Machines</button>
+					<button id="tab-readings">Readings / Docs</button>
+				</nav>
+			</div>
 
 			<!-- sorting dropdowns -->
 			<div class="sort-options">

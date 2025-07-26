@@ -26,9 +26,15 @@ fetch('/api/arena')
 					machineBlocks.push(block)
 				}
 
-				// build category map
+				// build category map (skip adding 'Readings' as a machine tag)
 				if (!categoryMap[block.id]) categoryMap[block.id] = new Set()
-				categoryMap[block.id].add(channel.title)
+				if (
+					block.isMachine &&
+					!block.isReading &&
+					channel.title.toLowerCase() !== 'readings'
+				) {
+					categoryMap[block.id].add(channel.title)
+				}
 			})
 		})
 
@@ -76,14 +82,22 @@ function sortBlocks(blocks, method) {
 // populate dropdown for channel filter
 function populateChannelOptions() {
 	if (!channelSelect) return
+
 	const allCategories = new Set()
+
 	Object.values(categoryMap).forEach((set) => {
 		set.forEach((cat) => {
-			if (cat !== 'Readings') allCategories.add(cat)
+			// filter out any category that looks like 'reading', case-insensitive
+			if (cat.trim().toLowerCase() !== 'reading') {
+				allCategories.add(cat)
+			}
 		})
 	})
+
 	const uniqueChannels = [...allCategories].sort()
+
 	channelSelect.innerHTML = '<option value="all">All Types</option>'
+
 	uniqueChannels.forEach((channel) => {
 		const opt = document.createElement('option')
 		opt.value = channel

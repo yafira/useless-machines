@@ -9,7 +9,7 @@ const tabMachines = document.getElementById('tab-machines')
 const tabReadings = document.getElementById('tab-readings')
 const tabAbout = document.getElementById('tab-about')
 const aboutSection = document.getElementById('about-section')
-const darkToggle = document.getElementById('dark-toggle')
+const rockerToggle = document.getElementById('mode-toggle') // new toggle switch
 
 container.classList.add('index')
 
@@ -206,15 +206,15 @@ tabMachines.addEventListener('click', () => {
 	currentView = 'machines'
 	tabMachines.classList.add('active')
 	tabReadings.classList.remove('active')
-	tabAbout.classList.remove('active') // new
+	tabAbout.classList.remove('active')
 
 	sortSelect.disabled = false
 	channelSelect.style.display = 'none'
 
 	container.classList.remove('readings-view')
 	container.classList.add('index')
-	container.style.display = 'flex' // ensure it's visible
-	aboutSection.style.display = 'none' // hide about
+	container.style.display = 'flex'
+	aboutSection.style.display = 'none'
 
 	renderBlocks(machineBlocks, 'year')
 })
@@ -224,15 +224,15 @@ tabReadings.addEventListener('click', () => {
 	currentView = 'readings'
 	tabReadings.classList.add('active')
 	tabMachines.classList.remove('active')
-	tabAbout.classList.remove('active') // new
+	tabAbout.classList.remove('active')
 
 	sortSelect.disabled = true
 	channelSelect.style.display = 'none'
 
 	container.classList.remove('index')
 	container.classList.add('readings-view')
-	container.style.display = 'block' // ensure it's visible
-	aboutSection.style.display = 'none' // hide about
+	container.style.display = 'block'
+	aboutSection.style.display = 'none'
 
 	renderBlocks(readingBlocks, 'random')
 })
@@ -249,21 +249,28 @@ tabAbout.addEventListener('click', () => {
 
 	container.classList.remove('readings-view')
 	container.classList.remove('index')
-	container.style.display = 'none' // hide arena content
-	aboutSection.style.display = 'block' // show about section
+	container.style.display = 'none'
+	aboutSection.style.display = 'block'
 })
 
-// dark mode toggle
-if (localStorage.getItem('darkMode') === 'enabled') {
-	document.body.classList.add('dark-mode')
-	darkToggle.checked = true
-}
-darkToggle.addEventListener('change', () => {
-	if (darkToggle.checked) {
+// dark mode using toggle input
+const toggleSwitch = document.getElementById('mode-toggle')
+
+if (toggleSwitch) {
+	// check if user has a saved preference
+	if (localStorage.getItem('darkMode') === 'true') {
 		document.body.classList.add('dark-mode')
-		localStorage.setItem('darkMode', 'enabled')
-	} else {
-		document.body.classList.remove('dark-mode')
-		localStorage.setItem('darkMode', 'disabled')
+		toggleSwitch.checked = true
 	}
-})
+
+	// add event listener to toggle
+	toggleSwitch.addEventListener('change', () => {
+		if (toggleSwitch.checked) {
+			document.body.classList.add('dark-mode')
+			localStorage.setItem('darkMode', 'true')
+		} else {
+			document.body.classList.remove('dark-mode')
+			localStorage.setItem('darkMode', 'false')
+		}
+	})
+}

@@ -9,21 +9,12 @@ body {
 	line-height: 1.6;
 }
 
-.center-toggle {
-	text-align: center;
-	margin: 1rem 0 0.5rem 0;
-}
-
 h1 {
 	text-align: center;
 	font-size: 6rem;
 	letter-spacing: 0.05em;
 	margin-bottom: 0.75rem; /* tighten slightly if needed */
 	font-weight: 700;
-}
-
-.control-cluster {
-	gap: 0.5rem;
 }
 
 /* corner screws */

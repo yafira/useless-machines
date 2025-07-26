@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="styles.css" />
 		<link rel="stylesheet" href="dark-mode.css" />
 		<link rel="stylesheet" href="queries.css" />
+		<link rel="stylesheet" href="switch.css" />
 		<link
 			href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700&display=swap"
 			rel="stylesheet"
@@ -26,21 +27,23 @@
 		<main>
 			<h1>Useless Machines</h1>
 
-			<!--toggle switch -->
-			<div class="control-cluster">
-				<div class="center-toggle">
-					<label class="toggle-switch">
-						<input type="checkbox" id="dark-toggle" />
-						<span class="slider"></span>
-					</label>
-				</div>
-				<!-- nav -->
-				<nav class="site-nav">
-					<button id="tab-machines" class="active">All Machines</button>
-					<button id="tab-readings">Readings / Docs</button>
-					<button id="tab-about">About</button>
-				</nav>
+			<!-- toggle switch -->
+			<div class="power-wrapper">
+				<label class="power-switch">
+					<input type="checkbox" id="mode-toggle" />
+					<span class="power-slider">
+						<span class="label-i">I</span>
+						<span class="label-o">O</span>
+					</span>
+				</label>
 			</div>
+
+			<!-- nav -->
+			<nav class="site-nav">
+				<button id="tab-machines" class="active">All Machines</button>
+				<button id="tab-readings">Readings / Docs</button>
+				<button id="tab-about">About</button>
+			</nav>
 
 			<!-- sorting dropdowns -->
 			<div class="sort-container">

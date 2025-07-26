@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Useless Machines</title>
 		<link rel="stylesheet" href="styles.css" />
-		<link rel="stylesheet" href="darkmode.css" />
+		<link rel="stylesheet" href="dark-mode.css" />
+		<link rel="stylesheet" href="queries.css" />
 		<link
 			href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700&display=swap"
 			rel="stylesheet"
@@ -42,18 +43,18 @@
 			</div>
 
 			<!-- sorting dropdowns -->
-			<div class="sort-options">
+			<div class="sort-container">
 				<label for="sort-select">Sort by:</label>
 				<select id="sort-select">
 					<option value="random">Random</option>
 					<option value="year" selected>Year</option>
 					<option value="channel">Type of Machine</option>
 				</select>
-
-				<select id="channel-select" style="display: none">
-					<option value="all">All Types</option>
-				</select>
 			</div>
+
+			<select id="channel-select" style="display: none">
+				<option value="all">All Types</option>
+			</select>
 
 			<!-- arena content blocks -->
 			<div id="arena-content"></div>

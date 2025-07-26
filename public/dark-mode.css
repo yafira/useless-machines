@@ -142,14 +142,18 @@ body.dark-mode .gear-spinner {
 
 body.dark-mode .site-nav button {
 	color: #ccc;
+	border-color: transparent;
 }
 
 body.dark-mode .site-nav button.active {
-	border-color: #ccc;
+	color: #fff;
+	border-color: #fff;
 }
 
-body.dark-mode .site-nav button.active::after {
-	background-color: #fff;
+body.dark-mode .sort-container select {
+	background-color: #222;
+	color: #eee;
+	border: 1px solid #666;
 }
 
 body.dark-mode .sort-options label {
@@ -279,15 +283,4 @@ body.dark-mode .small-tag {
 
 body.dark-mode .small-tag:hover {
 	background: #666;
-}
-
-/* dark mode mobile adjustments */
-@media (max-width: 700px) {
-	body.dark-mode .index-year {
-		color: #bbb;
-	}
-
-	body.dark-mode .index-meta {
-		color: #aaa;
-	}
 }

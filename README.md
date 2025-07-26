@@ -26,6 +26,15 @@ Inspired by chindōgu, esoteric programming, speculative design, and the sheer j
 
 ---
 
+## 🌐 Local Development
+
+```bash
+git clone https://github.com/YOURUSERNAME/useless-machines.git
+cd useless-machines
+```
+
+---
+
 ## 🛠 Technologies Used
 
 - **HTML / CSS / JavaScript / Vercel**

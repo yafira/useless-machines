@@ -61,6 +61,10 @@ body.dark-mode #search-input {
 	border-color: #666;
 }
 
+body.dark-mode mark {
+	background-color: #b3937c;
+}
+
 body.dark-mode #arena-content.index {
 	border: 1px solid #333;
 	background: #1a1a1a;

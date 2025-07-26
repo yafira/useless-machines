@@ -188,6 +188,14 @@ h1 {
 	left: -9999px;
 }
 
+mark {
+	background-color: #d8c5a3;
+	color: inherit;
+	font-weight: 600;
+	padding: 0 2px;
+	border-radius: 2px;
+}
+
 /* arena content container */
 #arena-content.index {
 	max-width: 1000px;

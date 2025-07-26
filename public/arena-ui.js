@@ -275,30 +275,57 @@ if (toggleSwitch) {
 	})
 }
 
-// search bar filter logic
+// enhanced search with highlighting
 const searchInput = document.getElementById('search-input')
 if (searchInput) {
 	searchInput.addEventListener('input', () => {
-		const query = searchInput.value.toLowerCase()
+		const query = searchInput.value.trim().toLowerCase()
 		const blocks = document.querySelectorAll('.index-block, .block')
 
 		blocks.forEach((block) => {
-			// skip if on 'about' tab
 			if (currentView === 'about') return
 
-			const title =
-				block
-					.querySelector('.index-title, .block-title')
-					?.textContent?.toLowerCase() || ''
-			const desc =
-				block.querySelector('.block-description')?.textContent?.toLowerCase() ||
-				''
+			let matchFound = false
 
-			if (title.includes(query) || desc.includes(query)) {
-				block.style.display = ''
-			} else {
-				block.style.display = 'none'
-			}
+			// clear previous highlights
+			block.querySelectorAll('mark').forEach((mark) => {
+				const parent = mark.parentNode
+				parent.replaceChild(document.createTextNode(mark.textContent), mark)
+				parent.normalize()
+			})
+
+			const selectors = [
+				'.index-title',
+				'.block-description',
+				'.index-meta',
+				'.index-channel',
+			]
+
+			selectors.forEach((selector) => {
+				const el = block.querySelector(selector)
+				if (el) {
+					const originalText = el.textContent
+					const lowerText = originalText.toLowerCase()
+
+					if (query.length >= 3 && lowerText.includes(query)) {
+						matchFound = true
+
+						// custom highlighting that preserves spaces
+						const regex = new RegExp(`(${query})`, 'gi')
+						const highlighted = originalText.replace(regex, (match) => {
+							// avoid wrapping spaces
+							return match.trim() === '' ? match : `<mark>${match}</mark>`
+						})
+						el.innerHTML = highlighted
+					} else if (query === '') {
+						matchFound = true
+						el.innerHTML = originalText // reset
+					}
+				}
+			})
+
+			// show/hide block based on match
+			block.style.display = matchFound || query === '' ? '' : 'none'
 		})
 	})
 }

@@ -158,6 +158,10 @@ h1 {
 	margin-left: 0.5rem;
 }
 
+#channel-select {
+	display: none;
+}
+
 /* search bar */
 .search-container {
 	display: flex;

@@ -9,7 +9,7 @@ const tabMachines = document.getElementById('tab-machines')
 const tabReadings = document.getElementById('tab-readings')
 const tabAbout = document.getElementById('tab-about')
 const aboutSection = document.getElementById('about-section')
-const rockerToggle = document.getElementById('mode-toggle') // new toggle switch
+const rockerToggle = document.getElementById('mode-toggle')
 
 container.classList.add('index')
 
@@ -185,20 +185,17 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 }
 
 // dropdown change: sort
-sortSelect.addEventListener('change', (e) => {
-	const value = e.target.value
+sortSelect.addEventListener('change', () => {
+	const value = sortSelect.value
+
+	// show channel select only when "Type of Machine" is selected
 	if (value === 'channel') {
 		channelSelect.style.display = 'inline-block'
-		renderBlocks(machineBlocks, 'channel')
 	} else {
 		channelSelect.style.display = 'none'
-		renderBlocks(machineBlocks, value)
 	}
-})
 
-// dropdown change: channel filter
-channelSelect.addEventListener('change', (e) => {
-	renderBlocks(machineBlocks, 'channel', e.target.value)
+	renderBlocks(machineBlocks, value)
 })
 
 // machines tab

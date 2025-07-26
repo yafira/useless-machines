@@ -274,3 +274,31 @@ if (toggleSwitch) {
 		}
 	})
 }
+
+// search bar filter logic
+const searchInput = document.getElementById('search-input')
+if (searchInput) {
+	searchInput.addEventListener('input', () => {
+		const query = searchInput.value.toLowerCase()
+		const blocks = document.querySelectorAll('.index-block, .block')
+
+		blocks.forEach((block) => {
+			// skip if on 'about' tab
+			if (currentView === 'about') return
+
+			const title =
+				block
+					.querySelector('.index-title, .block-title')
+					?.textContent?.toLowerCase() || ''
+			const desc =
+				block.querySelector('.block-description')?.textContent?.toLowerCase() ||
+				''
+
+			if (title.includes(query) || desc.includes(query)) {
+				block.style.display = ''
+			} else {
+				block.style.display = 'none'
+			}
+		})
+	})
+}

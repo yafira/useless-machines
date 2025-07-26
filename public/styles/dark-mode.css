@@ -55,6 +55,12 @@ body.dark-mode h1 {
 	color: #eee;
 }
 
+body.dark-mode #search-input {
+	background-color: #222;
+	color: #eee;
+	border-color: #666;
+}
+
 body.dark-mode #arena-content.index {
 	border: 1px solid #333;
 	background: #1a1a1a;

@@ -7,6 +7,8 @@ const sortSelect = document.getElementById('sort-select')
 const channelSelect = document.getElementById('channel-select')
 const tabMachines = document.getElementById('tab-machines')
 const tabReadings = document.getElementById('tab-readings')
+const tabAbout = document.getElementById('tab-about')
+const aboutSection = document.getElementById('about-section')
 const darkToggle = document.getElementById('dark-toggle')
 
 container.classList.add('index')
@@ -204,10 +206,16 @@ tabMachines.addEventListener('click', () => {
 	currentView = 'machines'
 	tabMachines.classList.add('active')
 	tabReadings.classList.remove('active')
+	tabAbout.classList.remove('active') // new
+
 	sortSelect.disabled = false
 	channelSelect.style.display = 'none'
+
 	container.classList.remove('readings-view')
 	container.classList.add('index')
+	container.style.display = 'flex' // ensure it's visible
+	aboutSection.style.display = 'none' // hide about
+
 	renderBlocks(machineBlocks, 'year')
 })
 
@@ -216,11 +224,33 @@ tabReadings.addEventListener('click', () => {
 	currentView = 'readings'
 	tabReadings.classList.add('active')
 	tabMachines.classList.remove('active')
+	tabAbout.classList.remove('active') // new
+
 	sortSelect.disabled = true
 	channelSelect.style.display = 'none'
+
 	container.classList.remove('index')
 	container.classList.add('readings-view')
+	container.style.display = 'block' // ensure it's visible
+	aboutSection.style.display = 'none' // hide about
+
 	renderBlocks(readingBlocks, 'random')
+})
+
+// about tab
+tabAbout.addEventListener('click', () => {
+	currentView = 'about'
+	tabAbout.classList.add('active')
+	tabMachines.classList.remove('active')
+	tabReadings.classList.remove('active')
+
+	sortSelect.disabled = true
+	channelSelect.style.display = 'none'
+
+	container.classList.remove('readings-view')
+	container.classList.remove('index')
+	container.style.display = 'none' // hide arena content
+	aboutSection.style.display = 'block' // show about section
 })
 
 // dark mode toggle

@@ -440,6 +440,49 @@ h1 {
 	text-decoration: underline;
 }
 
+#about-section {
+	max-width: 800px;
+	margin: 2rem auto;
+	padding: 1rem 1.5rem;
+	line-height: 1.7;
+	font-size: 1rem;
+	color: #333;
+	background: #f9f9f9;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#about-section h2,
+#about-section h3 {
+	font-weight: 700;
+	margin-top: 1.5rem;
+}
+
+#about-section ul {
+	padding-left: 1.2rem;
+	margin-top: 0.5rem;
+}
+
+#about-section ul li {
+	margin-bottom: 0.5rem;
+}
+
+#about-section a {
+	color: #007b8a;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+#about-section a:hover {
+	text-decoration: underline;
+	color: #005e66;
+}
+
+body.dark-mode #about-section {
+	background: #1a1a1a;
+	color: #eee;
+}
+
 .small-tag {
 	font-size: 0.7rem;
 	font-weight: 500;

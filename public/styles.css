@@ -124,12 +124,11 @@ h1 {
 /* improved sort layout */
 .sort-container {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
 	gap: 0.5rem;
+	align-items: center;
 	justify-content: center;
-	text-align: center;
-	margin-bottom: 1rem;
+	flex-wrap: wrap;
+	margin: 1.5rem 0 2rem 0; /* ⬅️ top = 1.5rem, bottom = 2rem */
 }
 
 .sort-container label {
@@ -505,9 +504,8 @@ h1 {
 	color: #005e66;
 }
 
-body.dark-mode #about-section {
-	background: #1a1a1a;
-	color: #eee;
+.block-meta .tags {
+	margin-top: 0.25rem; /* reduced from something like 0.5rem or 1rem */
 }
 
 .small-tag {

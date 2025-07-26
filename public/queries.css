@@ -63,14 +63,28 @@
 		width: 100%;
 		align-items: flex-start;
 		text-align: left;
-		margin-top: 0.25rem;
+		margin-top: 0.1rem;
 		font-size: 0.9rem;
 		line-height: 1.4;
+		gap: 0.2rem;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.index-channel {
-		font-size: 0.9rem;
+		font-size: 0.85rem;
 		font-weight: 600;
+		margin-top: 0.1rem;
+	}
+
+	.tags {
+		margin-top: 0.1rem;
+	}
+
+	.tag {
+		font-size: 0.75rem;
+		padding: 0.2rem 0.5rem;
+		margin-top: 0.1rem;
 	}
 
 	.index-thumbnail {
@@ -82,16 +96,18 @@
 	}
 
 	.index-arrow {
+		display: block !important;
 		align-self: flex-start;
 		margin-top: 0.25rem;
 		font-size: 1rem;
-		color: rgba(255, 255, 255, 0.3); /* subtle for dark mode */
-		order: 3; /* push below everything */
+		color: rgba(255, 255, 255, 0.3);
+		order: 3;
 	}
 
 	.corner {
 		display: none;
 	}
+
 	.sort-options {
 		display: flex;
 		flex-direction: column;
@@ -119,7 +135,7 @@
 	}
 }
 
-/* dark mode mobile adjustments */
+/* channel + dark mode mobile adjustments */
 @media (max-width: 700px) {
 	body.dark-mode .index-year {
 		color: #bbb;
@@ -127,6 +143,10 @@
 
 	body.dark-mode .index-meta {
 		color: #aaa;
+	}
+
+	#channel-select {
+		display: none;
 	}
 }
 

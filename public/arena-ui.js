@@ -184,18 +184,22 @@ function renderBlocks(blocks, sortMethod, channelFilter = 'all') {
 	})
 }
 
-// dropdown change: sort
-sortSelect.addEventListener('change', () => {
-	const value = sortSelect.value
-
-	// show channel select only when "Type of Machine" is selected
+// sort dropdown
+sortSelect.addEventListener('change', (e) => {
+	const value = e.target.value
 	if (value === 'channel') {
 		channelSelect.style.display = 'inline-block'
+		renderBlocks(machineBlocks, 'channel', channelSelect.value)
 	} else {
 		channelSelect.style.display = 'none'
+		renderBlocks(machineBlocks, value)
 	}
+})
 
-	renderBlocks(machineBlocks, value)
+// listen for channel dropdown change
+channelSelect.addEventListener('change', (e) => {
+	const channel = e.target.value
+	renderBlocks(machineBlocks, 'channel', channel)
 })
 
 // machines tab
@@ -206,14 +210,15 @@ tabMachines.addEventListener('click', () => {
 	tabAbout.classList.remove('active')
 
 	sortSelect.disabled = false
-	channelSelect.style.display = 'none'
+	channelSelect.style.display =
+		sortSelect.value === 'channel' ? 'inline-block' : 'none'
 
 	container.classList.remove('readings-view')
 	container.classList.add('index')
 	container.style.display = 'flex'
 	aboutSection.style.display = 'none'
 
-	renderBlocks(machineBlocks, 'year')
+	renderBlocks(machineBlocks, sortSelect.value, channelSelect.value)
 })
 
 // readings tab
@@ -250,17 +255,15 @@ tabAbout.addEventListener('click', () => {
 	aboutSection.style.display = 'block'
 })
 
-// dark mode using toggle input
+// dark mode
 const toggleSwitch = document.getElementById('mode-toggle')
 
 if (toggleSwitch) {
-	// check if user has a saved preference
 	if (localStorage.getItem('darkMode') === 'true') {
 		document.body.classList.add('dark-mode')
 		toggleSwitch.checked = true
 	}
 
-	// add event listener to toggle
 	toggleSwitch.addEventListener('change', () => {
 		if (toggleSwitch.checked) {
 			document.body.classList.add('dark-mode')
@@ -272,7 +275,7 @@ if (toggleSwitch) {
 	})
 }
 
-// enhanced search with highlighting
+// search
 const searchInput = document.getElementById('search-input')
 if (searchInput) {
 	searchInput.addEventListener('input', () => {
@@ -284,7 +287,6 @@ if (searchInput) {
 
 			let matchFound = false
 
-			// clear previous highlights
 			block.querySelectorAll('mark').forEach((mark) => {
 				const parent = mark.parentNode
 				parent.replaceChild(document.createTextNode(mark.textContent), mark)
@@ -306,22 +308,18 @@ if (searchInput) {
 
 					if (query.length >= 3 && lowerText.includes(query)) {
 						matchFound = true
-
-						// custom highlighting that preserves spaces
 						const regex = new RegExp(`(${query})`, 'gi')
 						const highlighted = originalText.replace(regex, (match) => {
-							// avoid wrapping spaces
 							return match.trim() === '' ? match : `<mark>${match}</mark>`
 						})
 						el.innerHTML = highlighted
 					} else if (query === '') {
 						matchFound = true
-						el.innerHTML = originalText // reset
+						el.innerHTML = originalText
 					}
 				}
 			})
 
-			// show/hide block based on match
 			block.style.display = matchFound || query === '' ? '' : 'none'
 		})
 	})

@@ -10,6 +10,29 @@ function sanitizeHTML(rawHTMLStr) {
 	return DOMPurify.sanitize(rawHTMLStr)
 }
 
+// fetch all group channels with pagination
+async function fetchAllGroupChannels(groupSlug, token) {
+	let page = 1
+	let allChannels = []
+	let keepFetching = true
+
+	while (keepFetching) {
+		const res = await fetch(
+			`https://api.are.na/v2/groups/${groupSlug}/channels?page=${page}&per=100`,
+			{ headers: { Authorization: `Bearer ${token}` } }
+		)
+		const data = await res.json()
+		if (!data.channels || data.channels.length === 0) {
+			keepFetching = false
+		} else {
+			allChannels = allChannels.concat(data.channels)
+			page++
+		}
+	}
+
+	return allChannels
+}
+
 module.exports = async (req, res) => {
 	const GROUP_SLUG = 'useless-machines'
 	const ACCESS_TOKEN = process.env.ARENA_ACCESS_TOKEN
@@ -20,17 +43,7 @@ module.exports = async (req, res) => {
 	}
 
 	try {
-		const groupRes = await fetch(
-			`https://api.are.na/v2/groups/${GROUP_SLUG}/channels`,
-			{
-				headers: {
-					Authorization: `Bearer ${ACCESS_TOKEN}`,
-				},
-			}
-		)
-
-		const groupData = await groupRes.json()
-		const channels = groupData.channels
+		const channels = await fetchAllGroupChannels(GROUP_SLUG, ACCESS_TOKEN)
 
 		// define categoriesPerBlock
 		const categoriesPerBlock = {}

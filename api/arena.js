@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 
 	try {
 		const groupRes = await fetch(
-			`https://api.are.na/v2/groups/${GROUP_SLUG}/channels`,
+			`https://api.are.na/v2/groups/${GROUP_SLUG}/channels?per=100`,
 			{
 				headers: {
 					Authorization: `Bearer ${ACCESS_TOKEN}`,

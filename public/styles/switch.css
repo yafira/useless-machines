@@ -1,7 +1,7 @@
 /* position toggle in top right corner, just left of the screw */
 .power-wrapper {
   position: fixed;
-  top: 0.6rem;
+  top: 1rem;
   right: 4rem;
   z-index: 1000;
   display: flex;

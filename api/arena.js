@@ -23,6 +23,8 @@ async function fetchAllGroupChannels(groupSlug, token) {
       { headers },
     );
     const data = await res.json();
+    console.log(`🔍 Group channels page ${page} status:`, res.status);
+    console.log(`🔍 Raw API response:`, JSON.stringify(data).slice(0, 500));
     const items = data.data || [];
 
     if (items.length === 0 || !data.meta?.has_more_pages) {
@@ -68,6 +70,8 @@ module.exports = async (req, res) => {
   const GROUP_SLUG = "useless-machines";
   const ACCESS_TOKEN = process.env.ARENA_ACCESS_TOKEN || null;
 
+  console.log(`🔑 Token present: ${!!ACCESS_TOKEN}`);
+
   try {
     const channels = await fetchAllGroupChannels(GROUP_SLUG, ACCESS_TOKEN);
     console.log(`✅ Total channels fetched: ${channels.length}`);
@@ -100,7 +104,6 @@ module.exports = async (req, res) => {
                 categoriesPerBlock[block.id].push(channel.title);
               }
 
-              // v3 image: block.image.small.src / block.image.large.src
               const imageObj = block.image
                 ? {
                     thumb: { url: block.image.small?.src || null },
@@ -108,16 +111,9 @@ module.exports = async (req, res) => {
                   }
                 : null;
 
-              // v3 description is an object { html, markdown, plain }
               const descriptionHTML = block.description?.html || null;
-
-              // v3 source url
               const url = block.source?.url || block.image?.src || null;
-
-              // v3 text content is an object { plain, html, markdown }
               const textContent = block.content?.plain || null;
-
-              // v3 attachment
               const attachment = block.attachment
                 ? {
                     url: block.attachment.url,
@@ -125,7 +121,6 @@ module.exports = async (req, res) => {
                   }
                 : null;
 
-              // v3 channel description is also an object
               const channelDescription =
                 typeof channel.description === "object"
                   ? channel.description?.plain || null
@@ -133,7 +128,7 @@ module.exports = async (req, res) => {
 
               return {
                 id: block.id,
-                class: block.type, // v3 uses "type" not "class"
+                class: block.type,
                 title: block.title,
                 image: imageObj,
                 url,

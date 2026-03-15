@@ -2,6 +2,11 @@ const fetch = require("node-fetch");
 const createDOMPurify = require("isomorphic-dompurify");
 const { JSDOM } = require("jsdom");
 
+// simple in-memory cache
+let cache = null;
+let cacheTime = 0;
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
 // html sanitizer
 function sanitizeHTML(rawHTMLStr) {
   if (!rawHTMLStr) return null;
@@ -23,11 +28,11 @@ async function fetchAllGroupChannels(groupSlug) {
     const data = await res.json();
     const items = data.data || [];
 
+    allChannels = allChannels.concat(items);
+
     if (items.length === 0 || !data.meta?.has_more_pages) {
-      allChannels = allChannels.concat(items);
       keepFetching = false;
     } else {
-      allChannels = allChannels.concat(items);
       page++;
     }
   }
@@ -62,6 +67,12 @@ async function fetchAllChannelContents(channelSlug) {
 
 module.exports = async (req, res) => {
   const GROUP_SLUG = "useless-machines";
+
+  // return cached response if still fresh
+  if (cache && Date.now() - cacheTime < CACHE_TTL) {
+    console.log("✅ Serving from cache");
+    return res.status(200).json(cache);
+  }
 
   try {
     const channels = await fetchAllGroupChannels(GROUP_SLUG);
@@ -145,9 +156,17 @@ module.exports = async (req, res) => {
         }),
     );
 
-    res
-      .status(200)
-      .json({ group: GROUP_SLUG, channels: channelBlocks, categoriesPerBlock });
+    const result = {
+      group: GROUP_SLUG,
+      channels: channelBlocks,
+      categoriesPerBlock,
+    };
+
+    // store in cache
+    cache = result;
+    cacheTime = Date.now();
+
+    res.status(200).json(result);
   } catch (err) {
     console.error("❌ Fetch error:", err);
     res.status(500).json({ error: "Fetch failed", details: err.message });

@@ -11,20 +11,16 @@ function sanitizeHTML(rawHTMLStr) {
 }
 
 // fetch all group channels with pagination
-async function fetchAllGroupChannels(groupSlug, token) {
+async function fetchAllGroupChannels(groupSlug) {
   let page = 1;
   let allChannels = [];
   let keepFetching = true;
 
   while (keepFetching) {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
     const res = await fetch(
       `https://api.are.na/v3/groups/${groupSlug}/contents?type=Channel&page=${page}&per=100`,
-      { headers },
     );
     const data = await res.json();
-    console.log(`🔍 Group channels page ${page} status:`, res.status);
-    console.log(`🔍 Raw API response:`, JSON.stringify(data).slice(0, 500));
     const items = data.data || [];
 
     if (items.length === 0 || !data.meta?.has_more_pages) {
@@ -40,16 +36,14 @@ async function fetchAllGroupChannels(groupSlug, token) {
 }
 
 // fetch all blocks from a channel with pagination
-async function fetchAllChannelContents(channelSlug, token) {
+async function fetchAllChannelContents(channelSlug) {
   let page = 1;
   let allContents = [];
   let keepFetching = true;
 
   while (keepFetching) {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
     const res = await fetch(
       `https://api.are.na/v3/channels/${channelSlug}/contents?page=${page}&per=100`,
-      { headers },
     );
     const data = await res.json();
     const items = data.data || [];
@@ -68,12 +62,9 @@ async function fetchAllChannelContents(channelSlug, token) {
 
 module.exports = async (req, res) => {
   const GROUP_SLUG = "useless-machines";
-  const ACCESS_TOKEN = process.env.ARENA_ACCESS_TOKEN || null;
-
-  console.log(`🔑 Token present: ${!!ACCESS_TOKEN}`);
 
   try {
-    const channels = await fetchAllGroupChannels(GROUP_SLUG, ACCESS_TOKEN);
+    const channels = await fetchAllGroupChannels(GROUP_SLUG);
     console.log(`✅ Total channels fetched: ${channels.length}`);
 
     const categoriesPerBlock = {};
@@ -82,10 +73,7 @@ module.exports = async (req, res) => {
       channels
         .filter((channel) => channel.title !== "To be categorized")
         .map(async (channel) => {
-          const contents = await fetchAllChannelContents(
-            channel.slug,
-            ACCESS_TOKEN,
-          );
+          const contents = await fetchAllChannelContents(channel.slug);
           const isReadingChannel = channel.title.toLowerCase() === "reading";
 
           const blocks = contents
